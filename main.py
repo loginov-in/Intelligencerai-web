@@ -12,5 +12,17 @@ app.permanent_session_lifetime = timedelta(days=365)
 
 from endpoints.auth_login import *
 
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=9120)
