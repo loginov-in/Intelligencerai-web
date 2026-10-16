@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f7f5">
+
+  <title>Главная — IntelligencerAI</title>
+
+  <link rel="stylesheet" href="/static/css/apps.css">
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- Боковая панель -->
+    <aside class="sidebar">
+      <div class="sidebar__section">
+        <a href="{{ url_for('apps') }}" class="brand">
+          <img class="brand__logo" src="{{ url_for('static', filename='img/logo.svg') }}" alt="IntelligencerAI" width="28"
+            height="28">
+          <span class="brand__name">IntelligencerAI</span>
+        </a>
+
+        <p class="sidebar__label">Рабочее пространство</p>
+
+        <nav class="navigation" aria-label="Основная навигация">
+          <a href="{{ url_for('apps') }}" class="navigation__link navigation__link--active" aria-current="page">
+            <span class="navigation__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M3.333 8.333L10 2.5L16.667 8.333V15.833C16.667 16.275 16.491 16.699 16.179 17.012C15.866 17.324 15.442 17.5 15 17.5H5C4.558 17.5 4.134 17.324 3.821 17.012C3.509 16.699 3.333 16.275 3.333 15.833V8.333Z"
+                  stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M7.5 17.5V10H12.5V17.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            Главная
+          </a>
+
+          <a href="{{ url_for('apps') if 'design' not in url_for.__globals__ else '/design' }}" class="navigation__link">
+            <span class="navigation__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <circle cx="9.167" cy="9.167" r="4.167" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M16.667 16.667L12.917 12.917" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M9.167 5V9.167L11.667 10.833" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            Создать дизайн
+          </a>
+
+          <a href="/brandbook" class="navigation__link">
+            <span class="navigation__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path d="M10 3.333L16.667 6.667V13.333L10 16.667L3.333 13.333V6.667L10 3.333Z" stroke="currentColor"
+                  stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M10 16.667V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M16.667 6.667L10 10L3.333 6.667" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M10 3.333V10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            Брендбук
+          </a>
+
+          <a href="/history" class="navigation__link">
+            <span class="navigation__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path d="M10 5V10L12.5 12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </span>
+            История проектов
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar__bottom">
+        <nav class="navigation" aria-label="Дополнительная навигация">
+          <a href="/settings" class="navigation__link">
+            <span class="navigation__icon">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <circle cx="10" cy="10" r="1.667" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M16.667 10C16.667 10.175 16.658 10.342 16.642 10.508L18.15 11.65L16.683 13.883L14.717 13.275C14.4 13.475 14.067 13.65 13.717 13.792L13.333 15.883L11.017 16.667L10.125 14.775C10.042 14.767 9.958 14.767 9.875 14.775L8.983 16.667L6.667 15.883L6.283 13.792C5.933 13.65 5.6 13.475 5.283 13.275L3.317 13.883L1.85 11.65L3.358 10.508C3.342 10.342 3.333 10.175 3.333 10C3.333 9.825 3.342 9.658 3.358 9.492L1.85 8.35L3.317 6.117L5.283 6.725C5.6 6.525 5.933 6.35 6.283 6.208L6.667 4.117L8.983 3.333L9.875 5.225C9.958 5.233 10.042 5.233 10.125 5.225L11.017 3.333L13.333 4.117L13.717 6.208C14.067 6.35 14.4 6.525 14.717 6.725L16.683 6.117L18.15 8.35L16.642 9.492C16.658 9.658 16.667 9.825 16.667 10Z"
+                  stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </span>
+            Настройки
+          </a>
+        </nav>
+
+        <div class="profile">
+          <div class="profile__avatar">И</div>
+          <div class="profile__info">
+            <p class="profile__name">Мой аккаунт</p>
+            <p class="profile__description">Рабочее пространство</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Основная область -->
+    <main class="main">
+      <!-- Верхняя панель -->
+      <header class="topbar">
+        <div class="breadcrumbs">
+          <span>Рабочее пространство</span>
+          <span class="breadcrumbs__separator">/</span>
+          <span class="breadcrumbs__current">Главная</span>
+        </div>
+
+        <div class="topbar__actions">
+          <button class="topbar__button" type="button" aria-label="Уведомления">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true">
+              <path
+                d="M15.833 6.667C15.833 5.341 15.306 4.069 14.369 3.131C13.431 2.194 12.159 1.667 10.833 1.667C9.508 1.667 8.236 2.194 7.298 3.131C6.361 4.069 5.833 5.341 5.833 6.667C5.833 12.5 3.333 14.167 3.333 14.167H18.333C18.333 14.167 15.833 12.5 15.833 6.667Z"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M11.692 17.5C11.583 17.693 11.43 17.854 11.248 17.965C11.066 18.076 10.861 18.133 10.65 18.133C10.439 18.133 10.235 18.076 10.052 17.965C9.87 17.854 9.717 17.693 9.608 17.5"
+                stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </button>
+
+          <button class="avatar-button" type="button" aria-label="Профиль пользователя">
+            И
+          </button>
+        </div>
+      </header>
+
+      <!-- Содержимое страницы -->
+      <div class="content">
+        <!-- Приветствие -->
+        <section class="welcome">
+          <p class="welcome__eyebrow">Ваше рабочее пространство</p>
+          <h1 class="welcome__title">Главная</h1>
+          <p class="welcome__description">
+            Создавайте визуальные материалы, управляйте брендбуком и
+            возвращайтесь к своим проектам в одном месте.
+          </p>
+        </section>
+
+        <!-- Объявление -->
+        {% if advertising_name or advertising_desicription %}
+        <section class="announcement">
+          <div class="announcement__content">
+            <p class="announcement__label">Объявление</p>
+            {% if advertising_name %}
+            <h2 class="announcement__title">{{ advertising_name }}</h2>
+            {% endif %}
+            {% if advertising_desicription %}
+            <p class="announcement__description">{{ advertising_desicription }}</p>
+            {% endif %}
+          </div>
+          <div class="announcement__decoration" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 15L15 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M6.667 5H15V13.333" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </div>
+        </section>
+        {% endif %}
+
+        <!-- Основные инструменты -->
+        <section class="services">
+          <div class="services__header">
+            <div>
+              <h2 class="services__title">Ваши инструменты</h2>
+              <p class="services__description">
+                Всё необходимое для работы с дизайном
+              </p>
+            </div>
+          </div>
+
+          <div class="services__grid">
+            <!-- Создание дизайна -->
+            <a href="/design" class="service service--primary">
+              <div class="service__top">
+                <div class="service__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <circle cx="11" cy="11" r="5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M20 20L16 16" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M11 6V11L14 12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <span class="service__arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 15L15 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M6.667 5H15V13.333" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+
+              <div class="service__body">
+                <p class="service__eyebrow">Инструмент</p>
+                <h3 class="service__title">Создать дизайн</h3>
+                <p class="service__description">
+                  Создавайте изображения, баннеры и другие визуальные материалы
+                  с учётом вашего брендбука.
+                </p>
+              </div>
+
+              <span class="service__action">
+                Начать создание
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+
+            <!-- Брендбук -->
+            <a href="/brandbook" class="service">
+              <div class="service__top">
+                <div class="service__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <path d="M12 4L20 8V16L12 20L4 16V8L12 4Z" stroke="currentColor" stroke-width="1.4"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M12 20V12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M20 8L12 12L4 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M12 4V12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <span class="service__arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 15L15 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M6.667 5H15V13.333" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+
+              <div class="service__body">
+                <p class="service__eyebrow">Фирменный стиль</p>
+                <h3 class="service__title">Брендбук</h3>
+                <p class="service__description">
+                  Храните правила оформления, фирменные цвета, шрифты и
+                  визуальные концепции компании.
+                </p>
+              </div>
+
+              <span class="service__action">
+                Открыть брендбук
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+
+            <!-- История проектов -->
+            <a href="/history" class="service">
+              <div class="service__top">
+                <div class="service__icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M12 6V12L15 13.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <span class="service__arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5 15L15 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M6.667 5H15V13.333" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </span>
+              </div>
+
+              <div class="service__body">
+                <p class="service__eyebrow">Ваши проекты</p>
+                <h3 class="service__title">История</h3>
+                <p class="service__description">
+                  Просматривайте созданные дизайны, возвращайтесь к прошлым
+                  проектам и сохраняйте свои идеи.
+                </p>
+              </div>
+
+              <span class="service__action">
+                Посмотреть проекты
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <!-- Недавние проекты -->
+        <section class="recent">
+          <div class="recent__header">
+            <div>
+              <h2 class="recent__title">Недавние проекты</h2>
+              <p class="recent__description">
+                Ваши последние работы появятся здесь
+              </p>
+            </div>
+          </div>
+
+          <div class="recent__empty">
+            <h3 class="recent__empty-title">Проектов пока нет</h3>
+            <p class="recent__empty-text">
+              Создайте первый дизайн, чтобы он появился в этом списке
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Модальное окно приветствия -->
+  <div class="modal" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeModalTitle"
+    aria-describedby="welcomeModalDesc" tabindex="-1">
+    <div class="modal__dialog">
+      <div class="modal__icon">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true">
+          <path d="M14 22.167V14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <path d="M14 9.333H14.012" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+          <circle cx="14" cy="14" r="10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
+            stroke-linejoin="round" />
+        </svg>
+      </div>
+      <div class="modal__content">
+        <h2 class="modal__title" id="welcomeModalTitle">Добро пожаловать!</h2>
+        <p class="modal__text" id="welcomeModalDesc">
+          Добро пожаловать в панель управления, тут можно генерировать
+          фотографии для вашего бизнеса с вашим брендбуком!
+        </p>
+      </div>
+      <div class="modal__actions">
+        <button class="modal__button" type="button" id="welcomeCloseBtn">
+          Понятно
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+            <path d="M4 8L7 11L12 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const modal = document.getElementById("welcomeModal");
+      const closeBtn = document.getElementById("welcomeCloseBtn");
+
+      if (!modal) return;
+
+      const hasSeen = localStorage.getItem("intelligencerai_welcome_shown") === "true";
+
+      if (!hasSeen) {
+        modal.setAttribute("open", "");
+        document.body.style.overflow = "hidden";
+        closeBtn?.focus();
+      }
+
+      function closeModal() {
+        modal.removeAttribute("open");
+        document.body.style.overflow = "";
+        localStorage.setItem("intelligencerai_welcome_shown", "true");
+      }
+
+      closeBtn?.addEventListener("click", closeModal);
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.hasAttribute("open")) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

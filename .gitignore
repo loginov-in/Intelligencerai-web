@@ -1,0 +1,9 @@
+*.pyc
+.env
+/venv
+.venv
+/lib
+*/.DS_Store
+/local
+/local/
+/docs
