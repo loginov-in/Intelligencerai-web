@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+venv/
+.venv/
+lib/
+local/
+docs/
+*.pyc
+__pycache__/
+.DS_Store
+.vscode/
+DockerFile
+docker-compose.yaml
+nginx.conf
+nginx.conf.d/
+deploy.sh

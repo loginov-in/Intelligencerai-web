@@ -1,8 +1,21 @@
 # используем официальный образ Python в качестве базового #
 FROM python:3.9-slim
 
+# Не буферизуем вывод, чтобы логи gunicorn/Flask появлялись сразу
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
 # Устанавливаем рабочую директорию внутри контейнера
-WORKDIR /app/docker/
+WORKDIR /app
 
+# Сначала только зависимости — чтобы слой кешировался при изменении кода
+COPY requirements.txt .
+RUN pip install --r requirements.txt
 
+# Копируем исходники приложения (см. .dockerignore)
+COPY . .
 
+EXPOSE 9120
+
+CMD ["gunicorn", "--bind", "0.0.0.0:9120", "--workers", "2", "--timeout", "60", "--access-logfile", "-", "main:app"]
