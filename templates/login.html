@@ -1,18 +1,45 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark">
-    <title>Вход в панель управления</title>
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
+    <title>Вход в панель управления — Intelligencerai</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
         :root {
-            --font-family-primary: "OpenAI Sans", helvetica, sans-serif;
+            --font-family-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
             --font-size-xs: 14px;
             --font-size-sm: 16px;
             --font-size-md: 30px;
             --font-weight-base: 400;
             --line-height-base: 24px;
+
+            --space-1: 1px;
+            --space-2: 12px;
+            --space-3: 16px;
+            --space-4: 20px;
+            --space-5: 24px;
+            --space-6: 32px;
+
+            --radius-xs: 16px;
+            --radius-sm: 20px;
+            --radius-md: 9999px;
+
+            --motion-duration-instant: 120ms;
+            --motion-duration-fast: 150ms;
+            --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        :root[data-theme="dark"],
+        :root[data-theme="auto"][data-theme-preference="dark"] {
+            color-scheme: dark;
 
             --color-text-primary: #afafaf;
             --color-text-secondary: #dcdcdc;
@@ -34,24 +61,103 @@
             --color-primary-bg: var(--color-text-inverse);
             --color-primary-bg-hover: #ededed;
             --color-primary-bg-active: #dcdcdc;
-
-            --space-1: 1px;
-            --space-2: 12px;
-            --space-3: 16px;
-            --space-4: 20px;
-            --space-5: 21.28px;
-
-            --radius-xs: 16px;
-            --radius-sm: 20px;
-            --radius-md: 9999px;
-
-            --motion-duration-instant: 120ms;
-            --motion-duration-fast: 150ms;
-            --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+            --color-primary-text: #000000;
         }
 
-        *, *::before, *::after { box-sizing: border-box; }
-        html, body { height: 100%; }
+        :root[data-theme="light"] {
+            color-scheme: light;
+
+            --color-text-primary: #475569;
+            --color-text-secondary: #1e293b;
+            --color-text-tertiary: #0f172a;
+            --color-text-inverse: #ffffff;
+            --color-text-error: #dc2626;
+
+            --color-surface-base: #f8fafc;
+            --color-surface-muted: #ffffff;
+            --color-surface-raised: #f1f5f9;
+
+            --color-border-subtle: rgba(15, 23, 42, 0.06);
+            --color-border-strong: rgba(15, 23, 42, 0.12);
+            --color-border-error: rgba(220, 38, 38, 0.8);
+
+            --color-overlay-hover: rgba(15, 23, 42, 0.04);
+            --color-overlay-active: rgba(15, 23, 42, 0.08);
+            --color-focus-ring: rgba(37, 99, 235, 0.6);
+
+            --color-primary-bg: #2563eb;
+            --color-primary-bg-hover: #1d4ed8;
+            --color-primary-bg-active: #1e40af;
+            --color-primary-text: #ffffff;
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root[data-theme="auto"] {
+                color-scheme: light;
+
+                --color-text-primary: #475569;
+                --color-text-secondary: #1e293b;
+                --color-text-tertiary: #0f172a;
+                --color-text-inverse: #ffffff;
+                --color-text-error: #dc2626;
+
+                --color-surface-base: #f8fafc;
+                --color-surface-muted: #ffffff;
+                --color-surface-raised: #f1f5f9;
+
+                --color-border-subtle: rgba(15, 23, 42, 0.06);
+                --color-border-strong: rgba(15, 23, 42, 0.12);
+                --color-border-error: rgba(220, 38, 38, 0.8);
+
+                --color-overlay-hover: rgba(15, 23, 42, 0.04);
+                --color-overlay-active: rgba(15, 23, 42, 0.08);
+                --color-focus-ring: rgba(37, 99, 235, 0.6);
+
+                --color-primary-bg: #2563eb;
+                --color-primary-bg-hover: #1d4ed8;
+                --color-primary-bg-active: #1e40af;
+                --color-primary-text: #ffffff;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] {
+                color-scheme: dark;
+
+                --color-text-primary: #afafaf;
+                --color-text-secondary: #dcdcdc;
+                --color-text-tertiary: #ededed;
+                --color-text-inverse: #ffffff;
+                --color-text-error: #ff9a9a;
+
+                --color-surface-base: #000000;
+                --color-surface-muted: #131313;
+                --color-surface-raised: #1a1a1a;
+
+                --color-border-subtle: rgba(255, 255, 255, 0.10);
+                --color-border-strong: rgba(255, 255, 255, 0.24);
+                --color-border-error: #ff9a9a;
+
+                --color-overlay-hover: rgba(255, 255, 255, 0.06);
+                --color-overlay-active: rgba(255, 255, 255, 0.12);
+                --color-focus-ring: var(--color-text-tertiary);
+                --color-primary-bg: var(--color-text-inverse);
+                --color-primary-bg-hover: #ededed;
+                --color-primary-bg-active: #dcdcdc;
+                --color-primary-text: #000000;
+            }
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
 
         body {
             margin: 0;
@@ -63,10 +169,12 @@
             line-height: var(--line-height-base);
             -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
+            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard),
+                        color var(--motion-duration-fast) var(--motion-easing-standard);
         }
 
         .auth {
-            min-height: 100vh;
+            min-height: 100dvh;
             display: grid;
             place-items: center;
             padding: var(--space-4);
@@ -79,13 +187,21 @@
             border: var(--space-1) solid var(--color-border-subtle);
             border-radius: var(--radius-sm);
             padding: 32px;
+            display: grid;
+            gap: var(--space-5);
+        }
+
+        .auth__topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .auth__brand {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: var(--space-4);
+            margin: 0 auto;
         }
 
         .auth__logo {
@@ -94,124 +210,115 @@
             width: auto;
         }
 
+        .theme-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 0;
+            border-radius: var(--radius-md);
+            background: transparent;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            transition: color var(--motion-duration-fast) var(--motion-easing-standard),
+                        background-color var(--motion-duration-fast) var(--motion-easing-standard);
+        }
+
+        .theme-toggle:hover {
+            color: var(--color-text-tertiary);
+            background-color: var(--color-overlay-hover);
+        }
+
+        .theme-toggle:active {
+            background-color: var(--color-overlay-active);
+        }
+
+        .theme-toggle:focus-visible {
+            outline: 2px solid var(--color-focus-ring);
+            outline-offset: 2px;
+        }
+
+        .theme-toggle__icon {
+            width: 20px;
+            height: 20px;
+            display: none;
+        }
+
+        :root[data-theme="dark"] .theme-toggle__icon--moon,
+        :root[data-theme="light"] .theme-toggle__icon--sun {
+            display: block;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root[data-theme="auto"] .theme-toggle__icon--moon {
+                display: block;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root[data-theme="auto"] .theme-toggle__icon--sun {
+                display: block;
+            }
+        }
+
+        .auth__heading-group {
+            display: grid;
+            gap: var(--space-2);
+            text-align: center;
+        }
+
         .auth__title {
-            margin: 0 0 var(--space-2) 0;
+            margin: 0;
             font-size: var(--font-size-md);
             line-height: 1.2;
             font-weight: 600;
             letter-spacing: -0.01em;
             color: var(--color-text-tertiary);
-            text-align: center;
         }
 
         .auth__subtitle {
-            margin: 0 0 var(--space-4) 0;
+            margin: 0;
             font-size: var(--font-size-xs);
             line-height: 20px;
             color: var(--color-text-primary);
-            text-align: center;
         }
 
-        .sso { display: grid; gap: var(--space-2); }
-
-        .btn {
-            --btn-height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-2);
-            width: 100%;
-            min-height: var(--btn-height);
-            padding: 0 var(--space-3);
-            border: var(--space-1) solid transparent;
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-size: var(--font-size-sm);
-            font-weight: 500;
-            line-height: var(--line-height-base);
-            cursor: pointer;
-            text-decoration: none;
-            transition:
-                background-color var(--motion-duration-fast) var(--motion-easing-standard),
-                border-color var(--motion-duration-fast) var(--motion-easing-standard),
-                color var(--motion-duration-fast) var(--motion-easing-standard),
-                opacity var(--motion-duration-fast) var(--motion-easing-standard);
+        .auth__body {
+            display: grid;
+            gap: var(--space-4);
         }
 
-        .btn__icon { display: block; height: 20px; width: 20px; flex: 0 0 auto; }
-
-        .btn--primary {
-            position: relative;
-            background-color: var(--color-primary-bg);
-            color: var(--color-surface-base);
-            font-weight: 600;
+        .flash {
+            list-style: none;
+            margin: 0;
+            padding: var(--space-2) var(--space-3);
+            border: var(--space-1) solid var(--color-border-error);
+            border-radius: var(--radius-xs);
+            background-color: var(--color-surface-raised);
+            color: var(--color-text-error);
+            font-size: var(--font-size-xs);
+            line-height: 20px;
+            display: grid;
+            gap: 6px;
         }
 
-        .btn--primary:hover { background-color: var(--color-primary-bg-hover); }
-        .btn--primary:active { background-color: var(--color-primary-bg-active); }
-
-        .btn--secondary {
-            background-color: transparent;
-            border-color: var(--color-border-strong);
-            color: var(--color-text-tertiary);
+        .form {
+            display: grid;
+            gap: var(--space-3);
         }
 
-        .btn--secondary:hover { background-color: var(--color-overlay-hover); }
-        .btn--secondary:active { background-color: var(--color-overlay-active); }
-
-        .btn:hover { transition-duration: var(--motion-duration-instant); }
-
-        .btn:focus-visible,
-        .field__input:focus-visible,
-        .field__toggle:focus-visible,
-        .link:focus-visible {
-            outline: 2px solid var(--color-focus-ring);
-            outline-offset: 2px;
+        .field {
+            display: grid;
+            gap: 6px;
         }
 
-        .btn:disabled,
-        .btn[aria-disabled="true"] {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-
-        .btn.is-loading { cursor: progress; pointer-events: none; }
-        .btn.is-loading .btn__label { visibility: hidden; }
-
-        .btn.is-loading::after {
-            content: "";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border-radius: var(--radius-md);
-            border: 2px solid currentColor;
-            border-right-color: transparent;
-            animation: spin 600ms linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .divider {
+        .field__row {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: var(--space-3);
-            margin: var(--space-4) 0;
-            color: var(--color-text-primary);
-            font-size: var(--font-size-xs);
         }
-
-        .divider::before,
-        .divider::after {
-            content: "";
-            flex: 1 1 auto;
-            height: var(--space-1);
-            background-color: var(--color-border-subtle);
-        }
-
-        .form { display: grid; gap: var(--space-3); }
-
-        .field { display: grid; gap: 6px; }
 
         .field__label {
             font-size: var(--font-size-xs);
@@ -220,7 +327,33 @@
             color: var(--color-text-secondary);
         }
 
-        .field__control { position: relative; display: flex; align-items: center; }
+        .link {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-xs);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: color var(--motion-duration-fast) var(--motion-easing-standard);
+        }
+
+        .link:hover {
+            color: var(--color-text-tertiary);
+            text-decoration: underline;
+        }
+
+        .link:focus-visible,
+        .btn:focus-visible,
+        .field__input:focus-visible,
+        .field__toggle:focus-visible,
+        .checkbox:has(input:focus-visible) {
+            outline: 2px solid var(--color-focus-ring);
+            outline-offset: 2px;
+        }
+
+        .field__control {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
 
         .field__input {
             width: 100%;
@@ -233,16 +366,41 @@
             font-family: inherit;
             font-size: var(--font-size-sm);
             line-height: var(--line-height-base);
-            transition:
-                border-color var(--motion-duration-fast) var(--motion-easing-standard),
-                background-color var(--motion-duration-fast) var(--motion-easing-standard);
+            transition: border-color var(--motion-duration-fast) var(--motion-easing-standard),
+                        background-color var(--motion-duration-fast) var(--motion-easing-standard),
+                        box-shadow var(--motion-duration-fast) var(--motion-easing-standard);
         }
 
-        .field__input::placeholder { color: var(--color-text-primary); }
-        .field__input:hover { border-color: var(--color-text-primary); }
-        .field__input:disabled { opacity: 0.5; cursor: not-allowed; }
-        .field__input[aria-invalid="true"] { border-color: var(--color-border-error); }
-        .field__input--has-toggle { padding-right: 48px; }
+        .field__input::placeholder {
+            color: var(--color-text-primary);
+        }
+
+        .field__input:hover {
+            border-color: var(--color-text-primary);
+        }
+
+        .field__input:focus-visible {
+            outline: none;
+            border-color: color-mix(in srgb, var(--color-focus-ring) 40%, var(--color-border-strong));
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-focus-ring) 14%, transparent);
+        }
+
+        .field__input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .field__input[aria-invalid="true"] {
+            border-color: var(--color-border-error);
+        }
+
+        .field__input[aria-invalid="true"]:focus-visible {
+            box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-border-error) 16%, transparent);
+        }
+
+        .field__input--has-toggle {
+            padding-right: 48px;
+        }
 
         .field__toggle {
             position: absolute;
@@ -267,8 +425,15 @@
             background-color: var(--color-overlay-hover);
         }
 
-        .field__toggle[aria-pressed="true"] { color: var(--color-text-tertiary); }
-        .field__toggle svg { width: 20px; height: 20px; display: block; }
+        .field__toggle[aria-pressed="true"] {
+            color: var(--color-text-tertiary);
+        }
+
+        .field__toggle svg {
+            width: 20px;
+            height: 20px;
+            display: block;
+        }
 
         .field__error {
             display: none;
@@ -277,7 +442,9 @@
             color: var(--color-text-error);
         }
 
-        .field[data-error="true"] .field__error { display: block; }
+        .field[data-error="true"] .field__error {
+            display: block;
+        }
 
         .form__row {
             display: flex;
@@ -293,19 +460,80 @@
             font-size: var(--font-size-xs);
             color: var(--color-text-primary);
             cursor: pointer;
+            border-radius: 6px;
         }
 
-        .checkbox input { width: 16px; height: 16px; accent-color: var(--color-text-tertiary); }
+        .checkbox input {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--color-text-tertiary);
+        }
 
-        .link {
-            color: var(--color-text-secondary);
-            font-size: var(--font-size-xs);
+        .btn {
+            --btn-height: 44px;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            width: 100%;
+            min-height: var(--btn-height);
+            padding: 0 var(--space-3);
+            border: var(--space-1) solid transparent;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            line-height: var(--line-height-base);
+            cursor: pointer;
             text-decoration: none;
-            border-radius: 4px;
-            transition: color var(--motion-duration-fast) var(--motion-easing-standard);
+            background-color: var(--color-primary-bg);
+            color: var(--color-primary-text);
+            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard),
+                        opacity var(--motion-duration-fast) var(--motion-easing-standard);
         }
 
-        .link:hover { color: var(--color-text-tertiary); text-decoration: underline; }
+        .btn:hover {
+            background-color: var(--color-primary-bg-hover);
+            transition-duration: var(--motion-duration-instant);
+        }
+
+        .btn:active {
+            background-color: var(--color-primary-bg-active);
+        }
+
+        .btn:disabled,
+        .btn[aria-disabled="true"] {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .btn.is-loading {
+            cursor: progress;
+            pointer-events: none;
+        }
+
+        .btn.is-loading .btn__label {
+            visibility: hidden;
+        }
+
+        .btn.is-loading::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-radius: var(--radius-md);
+            border: 2px solid currentColor;
+            border-right-color: transparent;
+            animation: spin 600ms linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .auth__footnote {
             margin-top: var(--space-4);
@@ -315,18 +543,8 @@
             text-align: center;
         }
 
-        .auth__footnote .link { font-size: inherit; }
-
-        .flash {
-            list-style: none;
-            margin: 0 0 var(--space-3) 0;
-            padding: var(--space-2) var(--space-3);
-            border: var(--space-1) solid var(--color-border-error);
-            border-radius: var(--radius-xs);
-            background-color: var(--color-surface-raised);
-            color: var(--color-text-error);
-            font-size: var(--font-size-xs);
-            line-height: 20px;
+        .auth__footnote .link {
+            font-size: inherit;
         }
 
         .visually-hidden {
@@ -342,15 +560,22 @@
         }
 
         @media (max-width: 480px) {
-            .auth { padding: var(--space-3); }
-            .auth__card { padding: var(--space-4); }
+            .auth {
+                padding: var(--space-3);
+            }
+            .auth__card {
+                padding: var(--space-4);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after {
+            *,
+            *::before,
+            *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
         }
     </style>
@@ -358,135 +583,232 @@
 <body>
     <main class="auth">
         <section class="auth__card" aria-labelledby="login-heading">
-            <div class="auth__brand">
-                <img
-                    class="auth__logo"
-                    src="{{ url_for('static', filename='img/logo.svg') }}"
-                    alt="Intelligencerai"
-                    width="160"
-                    height="40">
+            <div class="auth__topbar">
+                <a class="auth__brand" href="/" aria-label="Intelligencerai — главная">
+                    <img
+                        class="auth__logo"
+                        src="{{ url_for('static', filename='img/logo.svg') }}"
+                        alt="Intelligencerai"
+                        width="160"
+                        height="40">
+                </a>
+                <button
+                    class="theme-toggle"
+                    type="button"
+                    id="theme-toggle"
+                    aria-label="Переключить тему"
+                    aria-live="polite">
+                    <svg class="theme-toggle__icon theme-toggle__icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+                    </svg>
+                    <svg class="theme-toggle__icon theme-toggle__icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </div>
 
-            <h1 class="auth__title" id="login-heading">Вход в панель управления</h1>
-            <p class="auth__subtitle">Введите данные вашей учётной записи, чтобы продолжить.</p>
+            <div class="auth__heading-group">
+                <h1 class="auth__title" id="login-heading">Вход в панель управления</h1>
+                <p class="auth__subtitle">Введите данные вашей учётной записи, чтобы продолжить.</p>
+            </div>
 
-            {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                    <ul class="flash" role="alert">
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endwith %}
+            <div class="auth__body">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        <ul class="flash" role="alert" aria-live="polite">
+                            {% for message in messages %}
+                                <li>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
 
-            <form class="form" method="post" action="{{ url_for('login') }}" novalidate>
-                <div class="field" data-error="{{ 'true' if errors and errors.email else 'false' }}">
-                    <label class="field__label" for="email">Электронная почта</label>
-                    <div class="field__control">
-                        <input
-                            class="field__input"
-                            id="email"
-                            name="email"
-                            type="email"
-                            inputmode="email"
-                            autocomplete="email"
-                            placeholder="you@example.com"
-                            required
-                            aria-describedby="email-error"
-                            {% if errors and errors.email %}aria-invalid="true"{% endif %}
-                            value="{{ form.email if form else '' }}">
+                <form class="form" method="post" action="{{ url_for('login') }}" novalidate autocomplete="on">
+                    <div class="field" data-error="{{ 'true' if errors and errors.email else 'false' }}">
+                        <label class="field__label" for="email">Электронная почта</label>
+                        <div class="field__control">
+                            <input
+                                class="field__input"
+                                id="email"
+                                name="email"
+                                type="email"
+                                inputmode="email"
+                                autocomplete="email"
+                                spellcheck="false"
+                                placeholder="you@example.com"
+                                required
+                                aria-describedby="email-error"
+                                {% if errors and errors.email %}aria-invalid="true"{% endif %}
+                                value="{{ form.email if form else '' }}">
+                        </div>
+                        <p class="field__error" id="email-error">{{ errors.email if errors and errors.email else 'Введите корректный адрес электронной почты.' }}</p>
                     </div>
-                    <p class="field__error" id="email-error">{{ errors.email if errors and errors.email else 'Введите корректный адрес электронной почты.' }}</p>
-                </div>
 
-                <div class="field" data-error="{{ 'true' if errors and errors.password else 'false' }}">
+                    <div class="field" data-error="{{ 'true' if errors and errors.password else 'false' }}">
+                        <div class="field__row">
+                            <label class="field__label" for="password">Пароль</label>
+                            <a class="link" href="{{ url_for('forgot_password') }}">Забыли пароль?</a>
+                        </div>
+                        <div class="field__control">
+                            <input
+                                class="field__input field__input--has-toggle"
+                                id="password"
+                                name="password"
+                                type="password"
+                                autocomplete="current-password"
+                                placeholder="Введите пароль"
+                                required
+                                minlength="8"
+                                aria-describedby="password-error"
+                                {% if errors and errors.password %}aria-invalid="true"{% endif %}>
+                            <button
+                                class="field__toggle"
+                                type="button"
+                                id="password-toggle"
+                                aria-controls="password"
+                                aria-pressed="false"
+                                aria-label="Показать пароль">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="field__error" id="password-error">{{ errors.password if errors and errors.password else 'Введите пароль.' }}</p>
+                    </div>
+
                     <div class="form__row">
-                        <label class="field__label" for="password">Пароль</label>
-                        <a class="link" href="#">Забыли пароль?</a>
+                        <label class="checkbox" for="remember">
+                            <input type="checkbox" id="remember" name="remember" value="1">
+                            <span>Оставаться в системе</span>
+                        </label>
                     </div>
-                    <div class="field__control">
-                        <input
-                            class="field__input field__input--has-toggle"
-                            id="password"
-                            name="password"
-                            type="password"
-                            autocomplete="current-password"
-                            placeholder="Введите пароль"
-                            required
-                            minlength="8"
-                            aria-describedby="password-error"
-                            {% if errors and errors.password %}aria-invalid="true"{% endif %}>
-                        <button
-                            class="field__toggle"
-                            type="button"
-                            id="password-toggle"
-                            aria-controls="password"
-                            aria-pressed="false"
-                            aria-label="Показать пароль">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path d="M1.5 12S5 5 12 5s10.5 7 10.5 7-3.5 7-10.5 7S1.5 12 1.5 12Z"/>
-                                <circle cx="12" cy="12" r="3"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <p class="field__error" id="password-error">{{ errors.password if errors and errors.password else 'Введите пароль.' }}</p>
-                </div>
 
-                <div class="form__row">
-                    <label class="checkbox" for="remember">
-                        <input type="checkbox" id="remember" name="remember" value="1">
-                        <span>Оставаться в системе</span>
-                    </label>
-                </div>
-
-                <button class="btn btn--primary" type="submit" id="submit-btn">
-                    <span class="btn__label">Продолжить</span>
-                </button>
-            </form>
+                    <button class="btn btn--primary" type="submit" id="submit-btn">
+                        <span class="btn__label">Продолжить</span>
+                    </button>
+                </form>
+            </div>
 
             <p class="auth__footnote">
-                Впервые в Intelligencerai? <a class="link" href="#">Создать аккаунт</a>
+                Впервые в Intelligencerai? <a class="link" href="{{ url_for('signup') }}">Создать аккаунт</a>
             </p>
         </section>
     </main>
 
     <script>
         (function () {
-            var toggle = document.getElementById("password-toggle");
-            var password = document.getElementById("password");
+            const root = document.documentElement;
+            const themeToggle = document.getElementById("theme-toggle");
+            const storageKey = "intelligencerai:theme";
+
+            function getStoredTheme() {
+                try {
+                    return localStorage.getItem(storageKey);
+                } catch (error) {
+                    return null;
+                }
+            }
+
+            function applyTheme(theme) {
+                if (theme === "light" || theme === "dark") {
+                    root.setAttribute("data-theme", theme);
+                    return;
+                }
+                root.setAttribute("data-theme", "auto");
+            }
+
+            function initTheme() {
+                applyTheme(getStoredTheme());
+                window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+                    if (getStoredTheme() === null) {
+                        applyTheme("auto");
+                    }
+                });
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener("click", function () {
+                    const current = root.getAttribute("data-theme");
+                    let next = "auto";
+
+                    if (current === "auto") {
+                        next = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+                    } else if (current === "dark") {
+                        next = "light";
+                    } else {
+                        next = "dark";
+                    }
+
+                    try {
+                        localStorage.setItem(storageKey, next);
+                    } catch (error) {}
+                    applyTheme(next);
+                });
+            }
+
+            initTheme();
+
+            const toggle = document.getElementById("password-toggle");
+            const password = document.getElementById("password");
             if (toggle && password) {
                 toggle.addEventListener("click", function () {
-                    var show = password.type === "password";
+                    const show = password.type === "password";
                     password.type = show ? "text" : "password";
                     toggle.setAttribute("aria-pressed", String(show));
                     toggle.setAttribute("aria-label", show ? "Скрыть пароль" : "Показать пароль");
                 });
             }
 
-            var form = document.querySelector(".form");
-            var submit = document.getElementById("submit-btn");
-            if (form && submit) {
-                form.addEventListener("submit", function (event) {
-                    var email = document.getElementById("email");
-                    var emailValid = email.checkValidity();
-                    var passValid = password.checkValidity();
-                    setFieldError(email, emailValid);
-                    setFieldError(password, passValid);
-                    if (!emailValid || !passValid) {
-                        event.preventDefault();
-                        (!emailValid ? email : password).focus();
-                        return;
+            const form = document.querySelector(".form");
+            const submit = document.getElementById("submit-btn");
+            const email = document.getElementById("email");
+
+            function setFieldError(input, valid) {
+                if (!input) return;
+                const field = input.closest(".field");
+                if (!field) return;
+                input.setAttribute("aria-invalid", valid ? "false" : "true");
+                field.setAttribute("data-error", valid ? "false" : "true");
+            }
+
+            if (email) {
+                email.addEventListener("input", function () {
+                    if (email.getAttribute("aria-invalid") === "true" && email.checkValidity()) {
+                        setFieldError(email, true);
                     }
-                    submit.classList.add("is-loading");
-                    submit.setAttribute("aria-busy", "true");
                 });
             }
 
-            function setFieldError(input, valid) {
-                var field = input.closest(".field");
-                input.setAttribute("aria-invalid", valid ? "false" : "true");
-                field.setAttribute("data-error", valid ? "false" : "true");
+            if (password) {
+                password.addEventListener("input", function () {
+                    if (password.getAttribute("aria-invalid") === "true") {
+                        const valid = password.value.trim().length > 0;
+                        setFieldError(password, valid);
+                    }
+                });
+            }
+
+            if (form && submit && email && password) {
+                form.addEventListener("submit", function (event) {
+                    const emailValid = email.checkValidity();
+                    const passwordValid = password.value.trim().length > 0;
+
+                    setFieldError(email, emailValid);
+                    setFieldError(password, passwordValid);
+
+                    if (!emailValid || !passwordValid) {
+                        event.preventDefault();
+                        const target = !emailValid ? email : password;
+                        target.focus();
+                        return;
+                    }
+
+                    submit.classList.add("is-loading");
+                    submit.setAttribute("aria-busy", "true");
+                    submit.disabled = true;
+                });
             }
         })();
     </script>
