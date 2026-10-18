@@ -11,7 +11,7 @@ app.permanent_session_lifetime = timedelta(days=365)
 
 
 from endpoints.auth_login import *
-
+from endpoints.mail_drowser import *
 
 
 
