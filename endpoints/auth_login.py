@@ -48,6 +48,16 @@ def registr():
 
     return render_template("create_account.html")
 
+@app.route("/signup")
+def signup():
+    return redirect(url_for("registr"))
+
+
+@app.route("/forgot_password")
+def forgot_password():
+    return redirect(url_for("login"))
+
+
 @app.route("/apps")
 @login_required
 def apps():

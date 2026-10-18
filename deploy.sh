@@ -41,11 +41,17 @@ if command -v apt-get >/dev/null 2>&1; then PKG_MGR="apt-get"; fi
 if command -v dnf   >/dev/null 2>&1; then PKG_MGR="dnf"; fi
 if command -v yum   >/dev/null 2>&1; then PKG_MGR="yum"; fi
 
-if ! command -v git >/dev/null 2>&1; then
-    log "Установка git..."
-    [ "$PKG_MGR" = "apt-get" ] && apt-get update -y && apt-get install -y git curl \
-        || { [ "$PKG_MGR" = "dnf" ] && dnf install -y git curl; } \
-        || yum install -y git curl
+need_pkgs=""
+command -v git   >/dev/null 2>&1 || need_pkgs="$need_pkgs git"
+command -v curl  >/dev/null 2>&1 || need_pkgs="$need_pkgs curl"
+if [ -n "$need_pkgs" ]; then
+    log "Установка пакетов:${need_pkgs}"
+    case "$PKG_MGR" in
+        apt-get) apt-get update -y && apt-get install -y $need_pkgs ;;
+        dnf)     dnf install -y $need_pkgs ;;
+        yum)     yum install -y $need_pkgs ;;
+        *)       die "Не найден пакетный менеджер (apt/dnf/yum) — установите вручную:${need_pkgs}" ;;
+    esac
 fi
 
 if ! command -v docker >/dev/null 2>&1; then
@@ -55,14 +61,19 @@ fi
 docker compose version >/dev/null 2>&1 || die "Плагин docker compose не найден"
 
 # --------------------------------- порты ---------------------------------- #
-if command -v ss >/dev/null 2>&1; then
-    if ss -lntH '( sport = :80 or sport = :443 )' | grep -qvE 'docker|:::'; then
-        if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet nginx 2>/dev/null; then
-            log "Останавливаем системный nginx (порт 80/443 занят)"
-            systemctl disable --now nginx || true
-        else
-            die "Порты 80/443 заняты сторонним процессом: $(ss -lntp '( sport = :80 or sport = :443 )')"
-        fi
+# Занятые порты, кроме процессов docker — если заняты нами, всё в порядке
+foreign_listeners() {
+    command -v ss >/dev/null 2>&1 || return 0
+    ss -lntpH '( sport = :80 or sport = :443 )' 2>/dev/null | grep -v docker || true
+}
+
+if [ -n "$(foreign_listeners)" ]; then
+    if command -v systemctl >/dev/null 2>&1 && systemctl is-active --quiet nginx 2>/dev/null; then
+        log "Останавливаем системный nginx (порт 80/443 занят)"
+        systemctl disable --now nginx || true
+    fi
+    if [ -n "$(foreign_listeners)" ]; then
+        die "Порты 80/443 заняты сторонним процессом: $(foreign_listeners)"
     fi
 fi
 
@@ -166,9 +177,13 @@ RENEW
 chmod +x "$renew_script"
 
 CRON_LINE="0 3 * * 1 ${renew_script} >> /var/log/intelligencerai-renew.log 2>&1"
-if ! crontab -l 2>/dev/null | grep -qF "$renew_script"; then
-    log "Добавляем задание в crontab для продления сертификата..."
-    (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+if command -v crontab >/dev/null 2>&1; then
+    if ! crontab -l 2>/dev/null | grep -qF "$renew_script"; then
+        log "Добавляем задание в crontab для продления сертификата..."
+        (crontab -l 2>/dev/null; echo "$CRON_LINE") | crontab -
+    fi
+else
+    err "crontab не найден — добавьте вручную: ${CRON_LINE}"
 fi
 
 # -------------------------------- итоги ----------------------------------- #
