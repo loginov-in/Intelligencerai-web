@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Настройки · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</head>
+<body class="app-body">
+<div class="drawer lg:drawer-open">
+  <input id="app-drawer" type="checkbox" class="drawer-toggle">
+
+  <div class="drawer-content flex flex-col min-h-screen">
+    <header class="app-header sticky top-0 z-30">
+      <div class="navbar min-h-14 gap-2 px-3 sm:px-5">
+        <div class="navbar-start gap-2">
+          <label for="app-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Меню">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </label>
+          <h1 class="font-semibold">Настройки</h1>
+        </div>
+        <div class="navbar-end">
+          <button class="btn btn-ghost btn-sm" data-theme-toggle type="button">
+            <span data-theme-icon>◐</span>
+            <span data-theme-label class="hidden sm:inline">Авто</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 w-full max-w-3xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
+      <!-- Профиль -->
+      <section class="panel enter">
+        <div class="panel-head">
+          <h2 class="panel-title">Профиль</h2>
+        </div>
+        <div class="p-5 flex flex-col gap-5">
+          <div class="flex items-center gap-4">
+            <div class="avatar" id="avatar-preview">
+              <div class="w-16 rounded-full">
+                {% if user.avatar_path %}
+                <img src="{{ user.avatar_path }}" alt="">
+                {% else %}
+                <div class="initials rounded-full text-lg">{{ user.name[:1] }}{{ user.lastname[:1] }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div>
+              <input type="file" id="avatar-input" class="file-input file-input-sm" accept="image/png,image/jpeg,image/webp,image/gif">
+              <p class="label muted">PNG, JPG, WEBP или GIF, до 2 МБ</p>
+            </div>
+          </div>
+
+          <form id="profile-form" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Имя</legend>
+              <input type="text" name="name" class="input w-full" value="{{ user.name }}" maxlength="30" required>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Фамилия</legend>
+              <input type="text" name="lastname" class="input w-full" value="{{ user.lastname }}" maxlength="30" required>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Имя пользователя</legend>
+              <input type="text" name="username" class="input w-full" value="{{ user.username }}" maxlength="50" required>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Почта</legend>
+              <input type="email" name="email" class="input w-full" value="{{ user.email }}" required>
+            </fieldset>
+            <div class="sm:col-span-2 flex justify-end">
+              <button type="submit" class="btn btn-primary" id="profile-submit">Сохранить</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Пароль -->
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Смена пароля</h2>
+        </div>
+        <div class="p-5">
+          <form id="password-form" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Текущий пароль</legend>
+              <input type="password" name="current" class="input w-full" autocomplete="current-password" required>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Новый пароль</legend>
+              <input type="password" name="new" class="input w-full" autocomplete="new-password" required>
+            </fieldset>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">Повторите</legend>
+              <input type="password" name="confirm" class="input w-full" autocomplete="new-password" required>
+            </fieldset>
+            <div class="sm:col-span-3 flex justify-end">
+              <button type="submit" class="btn btn-primary" id="password-submit">Изменить пароль</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- 2FA -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Двухэтапная авторизация</h2>
+            <p class="muted text-xs mt-1">Дополнительная проверка при входе в аккаунт.</p>
+          </div>
+        </div>
+        <div class="p-5 flex flex-col gap-5">
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">Способ подтверждения</legend>
+            <select class="select w-full" id="2fa-method">
+              <option value="none" {% if user.two_factor_method == 'none' %}selected{% endif %}>Выключено</option>
+              <option value="email" {% if user.two_factor_method == 'email' %}selected{% endif %}>Код на почту</option>
+              <option value="totp" {% if user.two_factor_method == 'totp' %}selected{% endif %}>Google Authenticator</option>
+            </select>
+          </fieldset>
+
+          <div id="2fa-totp" class="hidden flex-col gap-4">
+            <p class="muted text-sm">Отсканируйте QR-код в Google Authenticator и введите 6 цифр.</p>
+            <div class="flex flex-col sm:flex-row gap-4 items-start">
+              <img id="2fa-qr" alt="QR-код" class="rounded-xl bg-white p-2 w-40 h-40 border border-base-300">
+              <div class="min-w-0">
+                <p class="muted text-xs mb-1">Секретный ключ (если QR не читается)</p>
+                <code id="2fa-secret" class="code-block text-xs break-all"></code>
+              </div>
+            </div>
+          </div>
+
+          <div id="2fa-verify" class="hidden flex-col gap-4">
+            <div class="flex flex-wrap items-end gap-3">
+              <fieldset class="fieldset">
+                <legend class="fieldset-legend">Код подтверждения</legend>
+                <input type="text" id="2fa-code" class="input w-40" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code">
+              </fieldset>
+              <button type="button" class="btn btn-primary" id="2fa-verify-btn">Подтвердить</button>
+              <button type="button" class="btn btn-ghost" id="2fa-send-btn">Отправить код</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Тема и выход -->
+      <section class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title">Тема и аккаунт</h2>
+        </div>
+        <div class="p-5 flex flex-wrap items-center justify-between gap-3">
+          <button class="btn btn-ghost" data-theme-toggle type="button">
+            <span data-theme-icon>◐</span>
+            Тема: <span data-theme-label>Авто</span>
+          </button>
+          <a href="{{ url_for('logout') }}" class="btn btn-outline btn-error">Выйти из аккаунта</a>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-side z-40">
+    <label for="app-drawer" class="drawer-overlay" aria-label="Закрыть"></label>
+    <aside class="app-aside min-h-full w-72 p-4 flex flex-col gap-4">
+      <a href="{{ url_for('apps') }}" class="brand-lockup text-base px-2 py-1">
+        <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+        IntelligencerAI
+      </a>
+
+      <div class="org-chip">
+        <div class="avatar">
+          <div class="w-10 rounded-xl">
+            {% if user.organization and user.organization.avatar_path %}
+            <img src="{{ user.organization.avatar_path }}" alt="">
+            {% else %}
+            <div class="initials rounded-xl text-sm">{{ user.organization.name[:1] if user.organization else '?' }}</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="min-w-0">
+          <p class="font-medium truncate">{{ user.organization.name if user.organization else '—' }}</p>
+          <p class="muted text-xs truncate">{{ user.organization.category if user.organization else '' }}</p>
+        </div>
+      </div>
+
+      <nav class="flex flex-col gap-1 grow">
+        <a href="{{ url_for('apps') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"/></svg>
+          Обзор
+        </a>
+        <a href="{{ url_for('organization') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/></svg>
+          Организация
+        </a>
+        <a href="{{ url_for('settings') }}" class="nav-item is-active">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4l.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 8L4.5 8a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6V4.5a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 17 5.6l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.7Z"/></svg>
+          Настройки
+        </a>
+        <a href="{{ url_for('docs') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 21V4a1 1 0 0 1 1-1h7l6 6v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm8-18v5a1 1 0 0 0 1 1h5"/></svg>
+          Документация
+        </a>
+      </nav>
+
+      <div class="flex items-center gap-3 border-t border-base-300 pt-4">
+        <div class="avatar">
+          <div class="w-9 rounded-full">
+            {% if user.avatar_path %}
+            <img src="{{ user.avatar_path }}" alt="">
+            {% else %}
+            <div class="initials rounded-full text-xs">{{ user.name[:1] }}{{ user.lastname[:1] }}</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="min-w-0 grow">
+          <p class="text-sm font-medium truncate">{{ user.name }} {{ user.lastname }}</p>
+          <p class="muted text-xs truncate">@{{ user.username }}</p>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-square btn-sm" title="Выйти">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H3m0 0 4-4m-4 4 4 4M11 4h7a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-7"/></svg>
+        </a>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
+<script>
+(function () {
+  // ------------------------------- Аватар -------------------------------
+  var avatarInput = document.getElementById("avatar-input");
+  avatarInput.addEventListener("change", function () {
+    var file = avatarInput.files[0];
+    if (!file) return;
+    var preview = document.getElementById("avatar-preview");
+    preview.innerHTML = '<div class="w-16 rounded-full"><img alt=""></div>';
+    preview.querySelector("img").src = URL.createObjectURL(file);
+
+    var data = new FormData();
+    data.append("avatar", file);
+    Intelli.api("{{ url_for('upload_avatar') }}", { method: "POST", body: data })
+      .then(function (res) {
+        Intelli.toast("Аватар обновлён", "success");
+        if (res.avatar) preview.querySelector("img").src = res.avatar;
+      })
+      .catch(function (err) { Intelli.toast(err.message, "error"); });
+  });
+
+  // ------------------------------- Профиль -------------------------------
+  var profileForm = document.getElementById("profile-form");
+  profileForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var data = Object.fromEntries(new FormData(profileForm));
+    var btn = document.getElementById("profile-submit");
+    Intelli.setLoading(btn, true);
+    Intelli.api("{{ url_for('update_profile') }}", { method: "POST", json: data })
+      .then(function () { Intelli.toast("Профиль сохранён", "success"); })
+      .catch(function (err) {
+        var first = err.errors ? Object.values(err.errors)[0] : err.message;
+        Intelli.toast(first, "error");
+      })
+      .finally(function () { Intelli.setLoading(btn, false); });
+  });
+
+  // ------------------------------- Пароль -------------------------------
+  var passwordForm = document.getElementById("password-form");
+  passwordForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var data = Object.fromEntries(new FormData(passwordForm));
+    var btn = document.getElementById("password-submit");
+    Intelli.setLoading(btn, true);
+    Intelli.api("{{ url_for('change_password') }}", { method: "POST", json: data })
+      .then(function () {
+        Intelli.toast("Пароль изменён", "success");
+        passwordForm.reset();
+      })
+      .catch(function (err) {
+        var first = err.errors ? Object.values(err.errors)[0] : err.message;
+        Intelli.toast(first, "error");
+      })
+      .finally(function () { Intelli.setLoading(btn, false); });
+  });
+
+  // ------------------------------- 2FA -------------------------------
+  var methodSelect = document.getElementById("2fa-method");
+  var totpBox = document.getElementById("2fa-totp");
+  var verifyBox = document.getElementById("2fa-verify");
+
+  function show(el, on) {
+    el.classList.toggle("hidden", !on);
+    el.classList.toggle("flex", on);
+  }
+
+  methodSelect.addEventListener("change", function () {
+    var method = methodSelect.value;
+    show(totpBox, method === "totp");
+    show(verifyBox, method !== "none");
+
+    Intelli.api("{{ url_for('set_two_factor') }}", { method: "POST", json: { method: method } })
+      .then(function (res) {
+        if (res.method === "totp" && res.qr) {
+          document.getElementById("2fa-qr").src = res.qr;
+          document.getElementById("2fa-secret").textContent = res.secret;
+        }
+        if (res.method === "email") {
+          Intelli.api("{{ url_for('send_two_factor_code') }}", { method: "POST" })
+            .then(function () { Intelli.toast("Код отправлен на почту", "success"); })
+            .catch(function (err) { Intelli.toast(err.message, "error"); });
+        } else {
+          Intelli.toast(res.message, "success");
+        }
+      })
+      .catch(function (err) { Intelli.toast(err.message, "error"); });
+  });
+
+  document.getElementById("2fa-send-btn").addEventListener("click", function () {
+    Intelli.api("{{ url_for('send_two_factor_code') }}", { method: "POST" })
+      .then(function () { Intelli.toast("Код отправлен", "success"); })
+      .catch(function (err) { Intelli.toast(err.message, "error"); });
+  });
+
+  document.getElementById("2fa-verify-btn").addEventListener("click", function () {
+    var code = document.getElementById("2fa-code").value.trim();
+    Intelli.api("{{ url_for('verify_two_factor') }}", { method: "POST", json: { code: code } })
+      .then(function (res) { Intelli.toast(res.message, "success"); })
+      .catch(function (err) { Intelli.toast(err.message, "error"); });
+  });
+})();
+</script>
+</body>
+</html>

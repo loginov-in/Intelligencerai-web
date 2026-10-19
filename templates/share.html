@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ file.original_name }} · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:title" content="{{ file.original_name }}">
+  <meta property="og:description" content="Файл, опубликованный через IntelligencerAI">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</head>
+<body class="auth-body">
+  <button class="btn btn-ghost btn-sm fixed top-4 right-4 z-10" data-theme-toggle type="button">
+    <span data-theme-icon>◐</span>
+    <span data-theme-label class="sr-only">Авто</span>
+  </button>
+
+  <div class="min-h-dvh flex flex-col items-center justify-center gap-6 p-4">
+    <a class="brand-lockup text-base" href="{{ url_for('login') }}">
+      <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+      IntelligencerAI
+    </a>
+
+    <main class="w-full max-w-lg panel p-6 sm:p-8 enter flex flex-col items-center gap-5 text-center">
+      <div class="w-14 h-14 rounded-2xl bg-base-200 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 opacity-70" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M14 3v4a1 1 0 0 0 1 1h4M5 21V3a1 1 0 0 1 1-1h8l6 6v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Z"/>
+        </svg>
+      </div>
+
+      <div class="min-w-0 w-full">
+        <h1 class="text-xl font-bold break-words">{{ file.original_name }}</h1>
+        <div class="flex flex-wrap gap-2 justify-center text-xs mt-3">
+          <span class="badge badge-ghost">{{ (file.size / 1024) | round(1) }} КБ</span>
+          {% if file.created_at %}<span class="badge badge-ghost">{{ file.created_at.strftime('%d.%m.%Y %H:%M') }}</span>{% endif %}
+          <span class="badge badge-ghost">{{ file.organization.name }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row gap-3 w-full mt-2">
+        <a href="{{ url_for('share_download', token=file.share_token) }}" class="btn btn-primary flex-1">Скачать</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline flex-1">Открыть IntelligencerAI</a>
+      </div>
+    </main>
+
+    <p class="muted text-xs">© <span data-year>2026</span> IntelligencerAI</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script>
+    var year = document.querySelector("[data-year]");
+    if (year) year.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

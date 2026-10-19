@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Политика конфиденциальности · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</head>
+<body class="app-body">
+  <header class="app-header sticky top-0 z-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+      <a class="brand-lockup text-base" href="{{ url_for('login') }}">
+        <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+        IntelligencerAI
+      </a>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" data-theme-toggle type="button">
+          <span data-theme-icon>◐</span>
+          <span data-theme-label class="sr-only">Авто</span>
+        </button>
+        <a href="{{ url_for('login') }}" class="btn btn-ghost btn-sm">Ко входу</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-6">
+    <div class="enter">
+      <h1 class="text-3xl font-bold tracking-tight">Политика конфиденциальности</h1>
+      <p class="muted mt-2 text-sm">Общие правила обработки данных в сервисе IntelligencerAI.</p>
+    </div>
+
+    <section class="panel p-6 flex flex-col gap-5 text-sm leading-relaxed">
+      <div>
+        <h2 class="text-base font-semibold mb-1">Какие данные мы обрабатываем</h2>
+        <p class="muted">
+          Имя, фамилия, имя пользователя, почта, название организации и загруженные материалы.
+          Пароли хранятся только в виде криптографических хешей.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold mb-1">Зачем</h2>
+        <p class="muted">
+          Чтобы предоставить доступ к сервису, показать материалы вашей организации, отправлять коды
+          подтверждения и обеспечивать защиту аккаунта.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold mb-1">Передача третьим лицам</h2>
+        <p class="muted">
+          Данные не продаются и не передаются третьим лицам, кроме случаев, когда это требуется для
+          работы сервиса или по требованию закона.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold mb-1">Ваши права</h2>
+        <p class="muted">
+          Вы можете изменить профиль, удалить загруженные материалы или запросить удаление аккаунта,
+          обратившись к администратору организации.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-base font-semibold mb-1">Контакты</h2>
+        <p class="muted">По вопросам обработки данных напишите администратору вашей организации.</p>
+      </div>
+    </section>
+
+    <p class="muted text-xs text-center">© <span data-year>2026</span> IntelligencerAI</p>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script>
+    var year = document.querySelector("[data-year]");
+    if (year) year.textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

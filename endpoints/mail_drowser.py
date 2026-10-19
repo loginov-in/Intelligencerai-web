@@ -5,11 +5,9 @@ import secrets
 import smtplib
 import string
 from email.header import Header
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from time import time
-
-from flask import request, render_template, jsonify, session
-from flask_login import login_required
 
 from main import app
 
@@ -40,9 +38,55 @@ def code_confirmation_email(length=6):
     return "".join(secrets.choice(string.digits) for _ in range(length))
 
 
+# Письмо-карточка: крупный код подтверждения и всё #
+def code_email_html(code, minutes=10):
+    return f"""<!doctype html>
+<html lang="ru">
+<body style="margin:0;padding:32px 16px;background:#f4f2fb;font-family:Arial,Helvetica,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
+               style="max-width:420px;border-collapse:collapse;background:#ffffff;border-radius:20px;padding:32px;">
+          <tr>
+            <td align="center" style="padding:0 0 8px;font-size:18px;font-weight:bold;color:#2b2440;">
+              IntelligencerAI
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:0 0 24px;font-size:14px;color:#6b6480;">
+              Код подтверждения
+            </td>
+          </tr>
+          <tr>
+            <td align="center"
+                style="padding:18px 12px;background:#f4f2fb;border-radius:14px;font-size:34px;font-weight:bold;
+                       letter-spacing:8px;color:#2b2440;font-family:Consolas,Menlo,monospace;">
+              {code}
+            </td>
+          </tr>
+          <tr>
+            <td align="center" style="padding:24px 0 0;font-size:12px;color:#8b8499;">
+              Код действует {minutes} минут. Если вы не запрашивали код, просто проигнорируйте письмо.
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>"""
+
+
 # Отправка письма через SMTP #
-def send_mail(to_email, subject, body):
-    msg = MIMEText(body, "plain", "utf-8")
+def send_mail(to_email, subject, body, html=None):
+    if html:
+        msg = MIMEMultipart("alternative")
+        msg.attach(MIMEText(body, "plain", "utf-8"))
+        msg.attach(MIMEText(html, "html", "utf-8"))
+    else:
+        msg = MIMEText(body, "plain", "utf-8")
+
     msg["Subject"] = Header(subject, "utf-8")
     msg["From"] = SMTP_EMAIL
     msg["To"] = to_email
@@ -59,57 +103,11 @@ def send_mail(to_email, subject, body):
         server.sendmail(SMTP_EMAIL, [to_email], msg.as_string())
 
 
-# --------------------------------------------- Frontend ------------------------------------ #
-@app.route("/email_confirmation")
-def email_confirmation():
-    return render_template("email_confirmation.html")
-
-
-# --------------------------------------------- Backend ------------------------------------ #
-@app.route("/code/send_confirmation_email", methods=["POST"])
-def send_confirmation_email():
-    email = (request.form.get("email") or "").strip().lower()
-    if not email or "@" not in email:
-        return jsonify({"error": "Email is required"}), 400
-
-    # Не чаще одного письма в минуту на сессию
-    last_sent_at = session.get("confirmation_email_sent_at")
-    if last_sent_at and time() - last_sent_at < RESEND_COOLDOWN_SECONDS:
-        return jsonify({"error": "Код уже отправлен. Повторите попытку через минуту."}), 429
-
-    confirmation_code = code_confirmation_email()
-
-    try:
-        send_mail(email, "Код подтверждения", f"Ваш код подтверждения: {confirmation_code}")
-    except Exception as e:
-        return jsonify({"error": str(e)}), 502
-
-    _pending_codes[email] = {
-        "hash": _code_hash(email, confirmation_code),
-        "expires_at": time() + CONFIRM_CODE_TTL_SECONDS,
-    }
-    session["confirmation_email_sent_at"] = time()
-    return jsonify({"message": "Код подтверждения отправлен на ваш email"}), 200
-
-
-@app.route("/code/verify_confirmation_email", methods=["POST"])
-def verify_confirmation_email():
-    email = (request.form.get("email") or "").strip().lower()
-    code = (request.form.get("code") or "").strip()
-
-    if not email or "@" not in email:
-        return jsonify({"error": "Email is required"}), 400
-    if not code.isdigit() or len(code) != 6:
-        return jsonify({"error": "Код должен состоять из 6 цифр"}), 400
-
-    entry = _pending_codes.get(email)
-    if not entry or entry["expires_at"] < time():
-        _pending_codes.pop(email, None)
-        return jsonify({"error": "Код устарел. Запросите новый."}), 400
-
-    if not secrets.compare_digest(entry["hash"], _code_hash(email, code)):
-        return jsonify({"error": "Неверный код"}), 400
-
-    _pending_codes.pop(email, None)
-    session["confirmed_email"] = email
-    return jsonify({"message": "Email подтвержден"}), 200
+def send_code_email(to_email, code, subject="Код подтверждения"):
+    minutes = max(1, CONFIRM_CODE_TTL_SECONDS // 60)
+    send_mail(
+        to_email,
+        subject,
+        f"Ваш код подтверждения: {code}. Код действует {minutes} минут.",
+        html=code_email_html(code, minutes),
+    )
