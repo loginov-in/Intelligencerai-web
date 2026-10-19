@@ -38,7 +38,7 @@
     </header>
 
     <!-- ---------------------------------- Content --------------------------------- -->
-    <main class="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
+    <main class="flex-1 w-full max-w-6xl mx-auto p-4 sm:p-6 flex flex-col gap-6" data-motion-stagger="80">
       <section class="flex flex-wrap items-end justify-between gap-4 enter">
         <div>
           <h2 class="text-2xl font-bold tracking-tight">Здравствуйте, {{ user.name }}</h2>
@@ -75,7 +75,7 @@
             </div>
             <button class="btn btn-sm btn-outline" id="open-upload-modal-2">Загрузить</button>
           </div>
-          <ul id="brandbook-list" class="list flex flex-col p-2"></ul>
+          <ul id="brandbook-list" class="list flex flex-col p-2" data-motion-list></ul>
         </div>
 
         <!-- Последние файлы -->
@@ -86,7 +86,7 @@
               <p class="muted text-xs mt-1">Кто загрузил и когда.</p>
             </div>
           </div>
-          <ul id="recent-list" class="list flex flex-col p-2"></ul>
+          <ul id="recent-list" class="list flex flex-col p-2" data-motion-list></ul>
         </div>
       </section>
 
@@ -104,7 +104,7 @@
                 <th class="text-right">Действия</th>
               </tr>
             </thead>
-            <tbody id="files-body"></tbody>
+            <tbody id="files-body" data-motion-list></tbody>
           </table>
         </div>
       </section>
@@ -203,6 +203,7 @@
   <form method="dialog" class="modal-backdrop"><button>close</button></form>
 </dialog>
 
+<script src="{{ url_for('static', filename='js/motion.js') }}"></script>
 <script src="{{ url_for('static', filename='js/common.js') }}"></script>
 <script>
 (function () {
