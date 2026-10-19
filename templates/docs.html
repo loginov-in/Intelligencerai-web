@@ -4,211 +4,158 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Документация · IntelligencerAI</title>
-  <meta name="color-scheme" content="light">
+  <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </head>
-<body>
-<div class="docs-root" id="docs-root">
-  <!-- ------------------------------- Верхняя панель ------------------------------- -->
-  <header class="docs-top">
-    <a class="docs-brand" href="{{ url_for('apps') }}" title="К панели управления">
-      <img src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
-      <span class="truncate">IntelligencerAI</span>
-    </a>
+<body class="app-body">
+<div class="drawer lg:drawer-open">
+  <input id="app-drawer" type="checkbox" class="drawer-toggle">
 
-    <div class="docs-omnibox">
-      <button class="docs-nav-btn" type="button" id="docs-back" aria-label="Назад">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m14 6-6 6 6 6"/></svg>
-      </button>
-      <button class="docs-nav-btn" type="button" id="docs-forward" aria-label="Вперёд">
-        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m10 6 6 6-6 6"/></svg>
-      </button>
-      <span class="docs-route" id="docs-route">/docs/vvedenie</span>
-      <button class="docs-nav-btn" type="button" id="docs-reload" aria-label="Обновить">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6"/></svg>
-      </button>
-    </div>
-
-    <div class="flex-1 flex justify-end">
-      <button class="docs-top-action" type="button" id="docs-fullscreen" aria-label="Полноэкранный режим">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
-      </button>
-    </div>
-  </header>
-
-  <div class="docs-body">
-    <!-- ------------------------------- Боковая панель ------------------------------- -->
-    <aside class="docs-sidebar" id="docs-sidebar">
-      <div class="docs-sidebar-head">
-        <span class="docs-doc-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M5 21V4a1 1 0 0 1 1-1h7l6 6v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm8-18v5a1 1 0 0 0 1 1h5"/></svg>
-        </span>
-        <div class="docs-sidebar-title">
-          <p>Документация</p>
-          <span>v1.0.1</span>
+  <div class="drawer-content flex flex-col min-h-screen">
+    <!-- ---------------------------------- Topbar ---------------------------------- -->
+    <header class="app-header sticky top-0 z-30">
+      <div class="navbar min-h-14 gap-2 px-3 sm:px-5">
+        <div class="navbar-start gap-2">
+          <label for="app-drawer" class="btn btn-ghost btn-square btn-sm lg:hidden" aria-label="Меню">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </label>
+          <h1 class="font-semibold">Документация</h1>
         </div>
-        <button class="docs-top-action" type="button" id="docs-collapse" aria-label="Свернуть навигацию">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6"/></svg>
-        </button>
+        <div class="navbar-end gap-2">
+          <button class="btn btn-ghost btn-sm" data-theme-toggle type="button">
+            <span data-theme-icon>◐</span>
+            <span data-theme-label class="hidden sm:inline">Авто</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ---------------------------------- Content --------------------------------- -->
+    <main class="flex-1 w-full max-w-3xl mx-auto p-4 sm:p-6 flex flex-col gap-6">
+      <div class="enter">
+        <h2 class="text-2xl font-bold tracking-tight">Документация</h2>
+        <p class="muted text-sm mt-1">Как пользоваться IntelligencerAI.</p>
       </div>
 
-      <div class="docs-search">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m20 20-3.6-3.6"/></svg>
-        <input type="search" id="docs-search" placeholder="Поиск по документации…" autocomplete="off" aria-label="Поиск по документации">
+      <section class="panel p-6 flex flex-col gap-5 text-sm leading-relaxed">
+        <div>
+          <h3 class="text-base font-semibold mb-1">Начало работы</h3>
+          <p class="muted">
+            После входа вы попадаете в панель управления. Отсюда доступны материалы вашей
+            организации, настройки профиля и управление организацией.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold mb-1">Брендбук и материалы</h3>
+          <p class="muted">
+            Загружайте файлы через кнопку «Загрузить файл» на панели управления.
+            Фирменные материалы (логотипы, шрифты, шаблоны) складывайте в раздел «Брендбук» —
+            они будут доступны всем членам организации.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold mb-1">Организация</h3>
+          <p class="muted">
+            В разделе «Организация» администратор может изменить название, аватар и категорию,
+            а также приглашать новых участников по ссылке-приглашению.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold mb-1">Настройки</h3>
+          <p class="muted">
+            В разделе «Настройки» можно изменить имя, пароль, аватар и включить
+            двухфакторную аутентификацию для защиты аккаунта.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-base font-semibold mb-1">Поддержка</h3>
+          <p class="muted">
+            По вопросам работы сервиса обратитесь к администратору вашей организации.
+          </p>
+        </div>
+      </section>
+
+      <p class="muted text-xs text-center">© <span data-year>2026</span> IntelligencerAI</p>
+    </main>
+  </div>
+
+  <!-- ---------------------------------- Sidebar --------------------------------- -->
+  <div class="drawer-side z-40">
+    <label for="app-drawer" class="drawer-overlay" aria-label="Закрыть"></label>
+    <aside class="app-aside min-h-full w-72 p-4 flex flex-col gap-4">
+      <a href="{{ url_for('apps') }}" class="brand-lockup text-base px-2 py-1">
+        <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+        IntelligencerAI
+      </a>
+
+      <div class="org-chip">
+        <div class="avatar">
+          <div class="w-10 rounded-xl">
+            {% if user.organization and user.organization.avatar_path %}
+            <img src="{{ user.organization.avatar_path }}" alt="">
+            {% else %}
+            <div class="initials rounded-xl text-sm">{{ user.organization.name[:1] if user.organization else '?' }}</div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="min-w-0">
+          <p class="font-medium truncate">{{ user.organization.name if user.organization else '—' }}</p>
+          <p class="muted text-xs truncate">{{ user.organization.category if user.organization else '' }}</p>
+        </div>
       </div>
 
-      <nav class="docs-nav" id="docs-nav">
-        <div class="docs-nav-group">
-          <p class="docs-nav-label">Начало</p>
-          <button class="docs-link" type="button" data-group="Начало" data-slug="vvedenie">Введение</button>
-          <button class="docs-link" type="button" data-group="Начало" data-slug="ustanovka">Установка</button>
-          <button class="docs-link" type="button" data-group="Начало" data-slug="struktura-proekta">Структура проекта</button>
-        </div>
-
-        <div class="docs-nav-group">
-          <p class="docs-nav-label">Руководство</p>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="avtorizaciya">Авторизация и регистрация</button>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="fajly">Файлы и загрузка</button>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="sharing">Шаринг и бэкап</button>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="organizaciya">Организация и роли</button>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="2fa">Двухэтапная защита</button>
-          <button class="docs-link" type="button" data-group="Руководство" data-slug="temy">Темы и интерфейс</button>
-        </div>
-
-        <div class="docs-nav-group">
-          <p class="docs-nav-label">Справочник</p>
-          <button class="docs-link" type="button" data-group="Справочник" data-slug="marshruty">Маршруты</button>
-          <button class="docs-link" type="button" data-group="Справочник" data-slug="modeli">Модели данных</button>
-          <button class="docs-link" type="button" data-group="Справочник" data-slug="api">API эндпоинты</button>
-          <button class="docs-link" type="button" data-group="Справочник" data-slug="stili">Стили и компоненты</button>
-        </div>
+      <nav class="flex flex-col gap-1 grow">
+        <a href="{{ url_for('apps') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5 12 3l9 7.5M5 9.5V21h14V9.5"/></svg>
+          Обзор
+        </a>
+        <a href="{{ url_for('organization') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4"/></svg>
+          Организация
+        </a>
+        <a href="{{ url_for('settings') }}" class="nav-item">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2V21a2 2 0 1 1-4 0v-.1A1.7 1.7 0 0 0 7 19.4l.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15H3a2 2 0 1 1 0-4h.1A1.7 1.7 0 0 0 4.6 8L4.5 8a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6V4.5a2 2 0 1 1 4 0v.1A1.7 1.7 0 0 0 17 5.6l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0 1.2 2.9H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1.7Z"/></svg>
+          Настройки
+        </a>
+        <a href="{{ url_for('docs') }}" class="nav-item is-active">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M5 21V4a1 1 0 0 1 1-1h7l6 6v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm8-18v5a1 1 0 0 0 1 1h5"/></svg>
+          Документация
+        </a>
       </nav>
-    </aside>
 
-    <button class="docs-overlay" type="button" id="docs-overlay" aria-label="Закрыть меню" hidden></button>
-
-    <!-- ------------------------------- Рабочая область ------------------------------- -->
-    <section class="docs-main">
-      <div class="docs-toolbar">
-        <button class="docs-top-action" type="button" id="docs-toggle" aria-label="Показать или скрыть навигацию">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <nav class="docs-crumb" aria-label="Хлебные крошки">
-          <span class="docs-crumb-group" id="docs-crumb-group">Начало</span>
-          <span class="docs-crumb-sep">›</span>
-          <span class="docs-crumb-current" id="docs-crumb-current">Введение</span>
-        </nav>
-      </div>
-
-      <div class="docs-canvas">
-        <div class="docs-row">
-          <div class="docs-card"></div>
-          <div class="docs-card"></div>
-          <div class="docs-card"></div>
+      <div class="flex items-center gap-3 border-t border-base-300 pt-4">
+        <div class="avatar">
+          <div class="w-9 rounded-full">
+            {% if user.avatar_path %}
+            <img src="{{ user.avatar_path }}" alt="">
+            {% else %}
+            <div class="initials rounded-full text-xs">{{ user.name[:1] }}{{ user.lastname[:1] }}</div>
+            {% endif %}
+          </div>
         </div>
-        <div class="docs-card docs-card-wide"></div>
+        <div class="min-w-0 grow">
+          <p class="text-sm font-medium truncate">{{ user.name }} {{ user.lastname }}</p>
+          <p class="muted text-xs truncate">@{{ user.username }}</p>
+        </div>
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-square btn-sm" title="Выйти">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12H3m0 0 4-4m-4 4 4 4M11 4h7a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-7"/></svg>
+        </a>
       </div>
-    </section>
+    </aside>
   </div>
 </div>
 
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
 <script>
-(function () {
-  var root = document.getElementById("docs-root");
-  var links = Array.prototype.slice.call(document.querySelectorAll(".docs-link"));
-  var crumbGroup = document.getElementById("docs-crumb-group");
-  var crumbCurrent = document.getElementById("docs-crumb-current");
-  var route = document.getElementById("docs-route");
-  var search = document.getElementById("docs-search");
-  var overlay = document.getElementById("docs-overlay");
-  var isMobile = function () { return window.matchMedia("(max-width: 1023px)").matches; };
-
-  // ------------------------------ Навигация ------------------------------
-  function activate(link, pushState) {
-    links.forEach(function (item) { item.classList.remove("is-active"); });
-    link.classList.add("is-active");
-    crumbGroup.textContent = link.dataset.group;
-    crumbCurrent.textContent = link.textContent;
-    route.textContent = "/docs/" + link.dataset.slug;
-    document.title = link.textContent + " · Документация";
-    if (pushState && location.hash.slice(1) !== link.dataset.slug) {
-      history.pushState({ slug: link.dataset.slug }, "", "#" + link.dataset.slug);
-    }
-    if (isMobile()) toggleSidebar(false);
-  }
-
-  links.forEach(function (link) {
-    link.addEventListener("click", function () { activate(link, true); });
-  });
-
-  function fromHash() {
-    var slug = location.hash.slice(1);
-    var link = links.filter(function (item) { return item.dataset.slug === slug; })[0];
-    activate(link || links[0], false);
-  }
-
-  fromHash();
-  window.addEventListener("hashchange", fromHash);
-  window.addEventListener("popstate", fromHash);
-
-  // ------------------------------ Сворачивание ------------------------------
-  var COLLAPSE_KEY = "intelligencerai:docs-collapsed";
-
-  function setCollapsed(collapsed) {
-    root.classList.toggle("is-collapsed", collapsed);
-    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch (e) {}
-  }
-  try {
-    if (localStorage.getItem(COLLAPSE_KEY) === "1") root.classList.add("is-collapsed");
-  } catch (e) {}
-
-  function toggleSidebar(open) {
-    root.classList.toggle("is-open", open);
-    overlay.hidden = !open;
-  }
-
-  document.getElementById("docs-collapse").addEventListener("click", function () {
-    setCollapsed(true);
-  });
-  document.getElementById("docs-toggle").addEventListener("click", function () {
-    if (isMobile()) toggleSidebar(!root.classList.contains("is-open"));
-    else setCollapsed(!root.classList.contains("is-collapsed"));
-  });
-  overlay.addEventListener("click", function () { toggleSidebar(false); });
-
-  window.addEventListener("resize", function () {
-    if (!isMobile()) toggleSidebar(false);
-  });
-
-  // ------------------------------ Поиск ------------------------------
-  search.addEventListener("input", function () {
-    var query = search.value.trim().toLowerCase();
-    links.forEach(function (link) {
-      link.hidden = query !== "" && link.textContent.toLowerCase().indexOf(query) === -1;
-    });
-    document.querySelectorAll(".docs-nav-group").forEach(function (group) {
-      var hasVisible = Array.prototype.some.call(group.querySelectorAll(".docs-link"), function (link) {
-        return !link.hidden;
-      });
-      group.hidden = !hasVisible;
-    });
-  });
-
-  // ------------------------------ Адресная строка ------------------------------
-  document.getElementById("docs-back").addEventListener("click", function () { history.back(); });
-  document.getElementById("docs-forward").addEventListener("click", function () { history.forward(); });
-  document.getElementById("docs-reload").addEventListener("click", function () { location.reload(); });
-
-  // ------------------------------ Полный экран ------------------------------
-  document.getElementById("docs-fullscreen").addEventListener("click", function () {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
-  });
-})();
+  var year = document.querySelector("[data-year]");
+  if (year) year.textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
