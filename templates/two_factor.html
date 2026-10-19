@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Двухэтапная защита · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</head>
+<body class="auth-body">
+  <button class="btn btn-ghost btn-sm fixed top-4 right-4 z-10" data-theme-toggle type="button">
+    <span data-theme-icon>◐</span>
+    <span data-theme-label class="sr-only">Авто</span>
+  </button>
+
+  <div class="min-h-dvh flex flex-col items-center justify-center gap-6 p-4">
+    <a class="brand-lockup text-base" href="{{ url_for('login') }}">
+      <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+      IntelligencerAI
+    </a>
+
+    <main class="w-full max-w-md auth-card enter">
+      <header>
+        <h1 class="auth-title">Введите код</h1>
+        <p class="auth-subtitle">
+          {% if method == 'totp' %}Код из приложения-аутентификатора
+          {% else %}Код отправлен на вашу почту{% endif %}
+        </p>
+      </header>
+
+      {% if error %}
+      <div role="alert" class="alert alert-error alert-soft text-sm"><span>{{ error }}</span></div>
+      {% endif %}
+
+      <form method="post" action="{{ url_for('two_factor_verify') }}" class="auth-form" id="twofa-form">
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">Код подтверждения</legend>
+          <input type="text" name="code" class="input input-lg w-full text-center tracking-[0.5em]"
+                 autocomplete="one-time-code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}"
+                 placeholder="000000" required autofocus>
+        </fieldset>
+        <button type="submit" class="btn btn-primary auth-submit" id="twofa-btn">Подтвердить</button>
+      </form>
+
+      <p class="auth-foot">
+        <a href="{{ url_for('logout') }}" class="link">Вернуться ко входу</a>
+      </p>
+    </main>
+
+    <p class="muted text-xs">© <span data-year>2026</span> IntelligencerAI</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script>
+    (function () {
+      var year = document.querySelector("[data-year]");
+      if (year) year.textContent = new Date().getFullYear();
+      document.getElementById("twofa-form").addEventListener("submit", function () {
+        Intelli.setLoading(document.getElementById("twofa-btn"), true);
+      });
+    })();
+  </script>
+</body>
+</html>

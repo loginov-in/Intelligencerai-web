@@ -1,368 +1,69 @@
-<!DOCTYPE html>
-<html lang="ru" data-theme="auto">
+<!doctype html>
+<html lang="ru" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)">
-    <title>Intelligencerai: Подтверждение аккаунта</title>
-
-    <link rel="icon" href="/static/img/Frame%201.png">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <style>
-        :root {
-            --font-family-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-            --font-size-xs: 14px;
-            --font-size-sm: 16px;
-            --font-size-md: 30px;
-            --font-weight-base: 400;
-            --line-height-base: 24px;
-
-            --space-1: 1px;
-            --space-2: 12px;
-            --space-3: 16px;
-            --space-4: 20px;
-            --space-5: 24px;
-            --space-6: 32px;
-
-            --radius-xs: 16px;
-            --radius-sm: 20px;
-            --radius-md: 9999px;
-
-            --motion-duration-instant: 120ms;
-            --motion-duration-fast: 150ms;
-            --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        :root[data-theme="dark"],
-        :root[data-theme="auto"][data-theme-preference="dark"] {
-            color-scheme: dark;
-
-            --color-text-primary: #afafaf;
-            --color-text-secondary: #dcdcdc;
-            --color-text-tertiary: #ededed;
-            --color-text-inverse: #ffffff;
-            --color-text-error: #ff9a9a;
-
-            --color-surface-base: #000000;
-            --color-surface-muted: #131313;
-            --color-surface-raised: #1a1a1a;
-
-            --color-border-subtle: rgba(255, 255, 255, 0.10);
-            --color-border-strong: rgba(255, 255, 255, 0.24);
-            --color-border-error: #ff9a9a;
-
-            --color-overlay-hover: rgba(255, 255, 255, 0.06);
-            --color-overlay-active: rgba(255, 255, 255, 0.12);
-            --color-focus-ring: var(--color-text-tertiary);
-            --color-primary-bg: var(--color-text-inverse);
-            --color-primary-bg-hover: #ededed;
-            --color-primary-bg-active: #dcdcdc;
-            --color-primary-text: #000000;
-        }
-
-        :root[data-theme="light"] {
-            color-scheme: light;
-
-            --color-text-primary: #475569;
-            --color-text-secondary: #1e293b;
-            --color-text-tertiary: #0f172a;
-            --color-text-inverse: #ffffff;
-            --color-text-error: #dc2626;
-
-            --color-surface-base: #f8fafc;
-            --color-surface-muted: #ffffff;
-            --color-surface-raised: #f1f5f9;
-
-            --color-border-subtle: rgba(15, 23, 42, 0.06);
-            --color-border-strong: rgba(15, 23, 42, 0.12);
-            --color-border-error: rgba(220, 38, 38, 0.8);
-
-            --color-overlay-hover: rgba(15, 23, 42, 0.04);
-            --color-overlay-active: rgba(15, 23, 42, 0.08);
-            --color-focus-ring: rgba(37, 99, 235, 0.6);
-
-            --color-primary-bg: #2563eb;
-            --color-primary-bg-hover: #1d4ed8;
-            --color-primary-bg-active: #1e40af;
-            --color-primary-text: #ffffff;
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root[data-theme="auto"] {
-                color-scheme: light;
-
-                --color-text-primary: #475569;
-                --color-text-secondary: #1e293b;
-                --color-text-tertiary: #0f172a;
-                --color-text-inverse: #ffffff;
-                --color-text-error: #dc2626;
-
-                --color-surface-base: #f8fafc;
-                --color-surface-muted: #ffffff;
-                --color-surface-raised: #f1f5f9;
-
-                --color-border-subtle: rgba(15, 23, 42, 0.06);
-                --color-border-strong: rgba(15, 23, 42, 0.12);
-                --color-border-error: rgba(220, 38, 38, 0.8);
-
-                --color-overlay-hover: rgba(15, 23, 42, 0.04);
-                --color-overlay-active: rgba(15, 23, 42, 0.08);
-                --color-focus-ring: rgba(37, 99, 235, 0.6);
-
-                --color-primary-bg: #2563eb;
-                --color-primary-bg-hover: #1d4ed8;
-                --color-primary-bg-active: #1e40af;
-                --color-primary-text: #ffffff;
-            }
-        }
-
-        @media (prefers-color-scheme: dark) {
-            :root[data-theme="auto"] {
-                color-scheme: dark;
-
-                --color-text-primary: #afafaf;
-                --color-text-secondary: #dcdcdc;
-                --color-text-tertiary: #ededed;
-                --color-text-inverse: #ffffff;
-                --color-text-error: #ff9a9a;
-
-                --color-surface-base: #000000;
-                --color-surface-muted: #131313;
-                --color-surface-raised: #1a1a1a;
-
-                --color-border-subtle: rgba(255, 255, 255, 0.10);
-                --color-border-strong: rgba(255, 255, 255, 0.24);
-                --color-border-error: #ff9a9a;
-
-                --color-overlay-hover: rgba(255, 255, 255, 0.06);
-                --color-overlay-active: rgba(255, 255, 255, 0.12);
-                --color-focus-ring: var(--color-text-tertiary);
-                --color-primary-bg: var(--color-text-inverse);
-                --color-primary-bg-hover: #ededed;
-                --color-primary-bg-active: #dcdcdc;
-                --color-primary-text: #000000;
-            }
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            margin: 0;
-            background-color: var(--color-surface-base);
-            color: var(--color-text-secondary);
-            font-family: var(--font-family-primary);
-            font-size: var(--font-size-sm);
-            font-weight: var(--font-weight-base);
-            line-height: var(--line-height-base);
-            -webkit-font-smoothing: antialiased;
-            text-rendering: optimizeLegibility;
-            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard),
-                        color var(--motion-duration-fast) var(--motion-easing-standard);
-        }
-
-        .auth {
-            min-height: 100dvh;
-            display: grid;
-            place-items: center;
-            padding: var(--space-4);
-        }
-
-        .auth__card {
-            width: 100%;
-            max-width: 400px;
-            background-color: var(--color-surface-muted);
-            border: var(--space-1) solid var(--color-border-subtle);
-            border-radius: var(--radius-sm);
-            padding: var(--space-6);
-            display: grid;
-            gap: var(--space-5);
-            text-align: center;
-            animation: card-in var(--motion-duration-fast) var(--motion-easing-standard) both;
-        }
-
-        @keyframes card-in {
-            from {
-                opacity: 0;
-                transform: translateY(6px);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .auth__card {
-                animation: none;
-            }
-        }
-
-        .auth__brand {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .auth__logo {
-            display: block;
-            height: 40px;
-            width: auto;
-        }
-
-        .auth__icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 56px;
-            height: 56px;
-            margin: 0 auto;
-            border-radius: var(--radius-md);
-            background-color: var(--color-surface-raised);
-            border: var(--space-1) solid var(--color-border-subtle);
-            color: var(--color-text-primary);
-        }
-
-        .auth__icon svg {
-            width: 26px;
-            height: 26px;
-            display: block;
-        }
-
-        .auth__heading-group {
-            display: grid;
-            gap: var(--space-2);
-            text-align: center;
-        }
-
-        .auth__title {
-            margin: 0;
-            font-size: var(--font-size-md);
-            line-height: 1.2;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            color: var(--color-text-tertiary);
-        }
-
-        .auth__subtitle {
-            margin: 0;
-            font-size: var(--font-size-xs);
-            line-height: 20px;
-            color: var(--color-text-primary);
-        }
-
-        .btn {
-            --btn-height: 44px;
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: var(--space-2);
-            width: 100%;
-            min-height: var(--btn-height);
-            padding: 0 var(--space-3);
-            border: var(--space-1) solid transparent;
-            border-radius: var(--radius-md);
-            font-family: inherit;
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            line-height: var(--line-height-base);
-            cursor: pointer;
-            text-decoration: none;
-            background-color: var(--color-primary-bg);
-            color: var(--color-primary-text);
-            transition: background-color var(--motion-duration-fast) var(--motion-easing-standard),
-                        opacity var(--motion-duration-fast) var(--motion-easing-standard);
-        }
-
-        .btn:hover {
-            background-color: var(--color-primary-bg-hover);
-            transition-duration: var(--motion-duration-instant);
-        }
-
-        .btn:active {
-            background-color: var(--color-primary-bg-active);
-        }
-
-        .btn:focus-visible {
-            outline: 2px solid var(--color-focus-ring);
-            outline-offset: 2px;
-        }
-
-        .btn.is-loading {
-            cursor: progress;
-            pointer-events: none;
-        }
-
-        .btn.is-loading .btn__label {
-            visibility: hidden;
-        }
-
-        .btn.is-loading::after {
-            content: "";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border-radius: var(--radius-md);
-            border: 2px solid currentColor;
-            border-right-color: transparent;
-            animation: spin 600ms linear infinite;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Подтверждение аккаунта · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 </head>
-<body>
-    <main class="auth">
-        <section class="auth__card" role="status" aria-live="polite">
-            <div class="auth__brand">
-                <img
-                    class="auth__logo"
-                    src="/static/img/logo.svg"
-                    alt="IntelligencerAI"
-                    width="40"
-                    height="40">
-            </div>
+<body class="auth-body">
+  <button class="btn btn-ghost btn-sm fixed top-4 right-4 z-10" data-theme-toggle type="button">
+    <span data-theme-icon>◐</span>
+    <span data-theme-label class="sr-only">Авто</span>
+  </button>
 
-            <span class="auth__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="9"></circle>
-                    <path d="M12 7v5l3 2"></path>
-                </svg>
-            </span>
+  <div class="min-h-dvh flex flex-col items-center justify-center gap-6 p-4">
+    <a class="brand-lockup text-base" href="{{ url_for('login') }}">
+      <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+      IntelligencerAI
+    </a>
 
-            <div class="auth__heading-group">
-                <h1 class="auth__title">Ваш аккаунт не подтвержден</h1>
-                <p class="auth__subtitle">Мы отправили ваш аккаунт на модерацию, дождитесь подтверждения, чтобы получить доступ к Intelligencerai.</p>
-            </div>
+    <main class="w-full max-w-md panel p-6 sm:p-8 enter flex flex-col items-center gap-4 text-center" role="status" aria-live="polite">
+      <div class="w-14 h-14 rounded-full bg-warning/15 text-warning flex items-center justify-center" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/>
+        </svg>
+      </div>
 
-            <button class="btn" type="button" id="refresh-btn">
-                <span class="btn__label">Обновить</span>
-            </button>
-        </section>
+      <h1 class="text-2xl font-bold tracking-tight">Ваш аккаунт ещё не подтверждён</h1>
+      <p class="muted text-sm">
+        Мы отправили аккаунт на модерацию. Дождитесь подтверждения, чтобы получить доступ к IntelligencerAI.
+      </p>
+
+      <button class="btn btn-primary w-full mt-2" type="button" id="refresh-btn">Проверить снова</button>
+
+      <p class="muted text-xs">Нужна помощь? Напишите администратору вашей организации.</p>
+      <a href="{{ url_for('logout') }}" class="link text-xs">Выйти из аккаунта</a>
     </main>
 
-    <script>
-        document.getElementById("refresh-btn").addEventListener("click", function () {
-            this.classList.add("is-loading");
-            setTimeout(function () {
-                location.reload();
-            }, 400);
-        });
-    </script>
+    <p class="muted text-xs">© <span data-year>2026</span> IntelligencerAI</p>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script>
+    var year = document.querySelector("[data-year]");
+    if (year) year.textContent = new Date().getFullYear();
+
+    document.getElementById("refresh-btn").addEventListener("click", function () {
+      var btn = this;
+      Intelli.setLoading(btn, true);
+      fetch("{{ url_for('apps') }}", { redirect: "follow" })
+        .then(function (res) {
+          if (res.redirected || res.url.indexOf("/apps") !== -1) {
+            window.location.href = res.url;
+          } else {
+            Intelli.toast("Аккаунт всё ещё на модерации", "info");
+          }
+        })
+        .catch(function () { Intelli.toast("Не удалось проверить статус", "error"); })
+        .finally(function () { Intelli.setLoading(btn, false); });
+    });
+  </script>
 </body>
 </html>

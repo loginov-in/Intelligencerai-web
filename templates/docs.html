@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Документация · IntelligencerAI</title>
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+</head>
+<body>
+<div class="docs-root" id="docs-root">
+  <!-- ------------------------------- Верхняя панель ------------------------------- -->
+  <header class="docs-top">
+    <a class="docs-brand" href="{{ url_for('apps') }}" title="К панели управления">
+      <img src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+      <span class="truncate">IntelligencerAI</span>
+    </a>
+
+    <div class="docs-omnibox">
+      <button class="docs-nav-btn" type="button" id="docs-back" aria-label="Назад">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m14 6-6 6 6 6"/></svg>
+      </button>
+      <button class="docs-nav-btn" type="button" id="docs-forward" aria-label="Вперёд">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="m10 6 6 6-6 6"/></svg>
+      </button>
+      <span class="docs-route" id="docs-route">/docs/vvedenie</span>
+      <button class="docs-nav-btn" type="button" id="docs-reload" aria-label="Обновить">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6"/></svg>
+      </button>
+    </div>
+
+    <div class="flex-1 flex justify-end">
+      <button class="docs-top-action" type="button" id="docs-fullscreen" aria-label="Полноэкранный режим">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M4 9V5a1 1 0 0 1 1-1h4M15 4h4a1 1 0 0 1 1 1v4M20 15v4a1 1 0 0 1-1 1h-4M9 20H5a1 1 0 0 1-1-1v-4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="docs-body">
+    <!-- ------------------------------- Боковая панель ------------------------------- -->
+    <aside class="docs-sidebar" id="docs-sidebar">
+      <div class="docs-sidebar-head">
+        <span class="docs-doc-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M5 21V4a1 1 0 0 1 1-1h7l6 6v12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm8-18v5a1 1 0 0 0 1 1h5"/></svg>
+        </span>
+        <div class="docs-sidebar-title">
+          <p>Документация</p>
+          <span>v1.0.1</span>
+        </div>
+        <button class="docs-top-action" type="button" id="docs-collapse" aria-label="Свернуть навигацию">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 6 9 12l6 6"/></svg>
+        </button>
+      </div>
+
+      <div class="docs-search">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m20 20-3.6-3.6"/></svg>
+        <input type="search" id="docs-search" placeholder="Поиск по документации…" autocomplete="off" aria-label="Поиск по документации">
+      </div>
+
+      <nav class="docs-nav" id="docs-nav">
+        <div class="docs-nav-group">
+          <p class="docs-nav-label">Начало</p>
+          <button class="docs-link" type="button" data-group="Начало" data-slug="vvedenie">Введение</button>
+          <button class="docs-link" type="button" data-group="Начало" data-slug="ustanovka">Установка</button>
+          <button class="docs-link" type="button" data-group="Начало" data-slug="struktura-proekta">Структура проекта</button>
+        </div>
+
+        <div class="docs-nav-group">
+          <p class="docs-nav-label">Руководство</p>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="avtorizaciya">Авторизация и регистрация</button>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="fajly">Файлы и загрузка</button>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="sharing">Шаринг и бэкап</button>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="organizaciya">Организация и роли</button>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="2fa">Двухэтапная защита</button>
+          <button class="docs-link" type="button" data-group="Руководство" data-slug="temy">Темы и интерфейс</button>
+        </div>
+
+        <div class="docs-nav-group">
+          <p class="docs-nav-label">Справочник</p>
+          <button class="docs-link" type="button" data-group="Справочник" data-slug="marshruty">Маршруты</button>
+          <button class="docs-link" type="button" data-group="Справочник" data-slug="modeli">Модели данных</button>
+          <button class="docs-link" type="button" data-group="Справочник" data-slug="api">API эндпоинты</button>
+          <button class="docs-link" type="button" data-group="Справочник" data-slug="stili">Стили и компоненты</button>
+        </div>
+      </nav>
+    </aside>
+
+    <button class="docs-overlay" type="button" id="docs-overlay" aria-label="Закрыть меню" hidden></button>
+
+    <!-- ------------------------------- Рабочая область ------------------------------- -->
+    <section class="docs-main">
+      <div class="docs-toolbar">
+        <button class="docs-top-action" type="button" id="docs-toggle" aria-label="Показать или скрыть навигацию">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8"><path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <nav class="docs-crumb" aria-label="Хлебные крошки">
+          <span class="docs-crumb-group" id="docs-crumb-group">Начало</span>
+          <span class="docs-crumb-sep">›</span>
+          <span class="docs-crumb-current" id="docs-crumb-current">Введение</span>
+        </nav>
+      </div>
+
+      <div class="docs-canvas">
+        <div class="docs-row">
+          <div class="docs-card"></div>
+          <div class="docs-card"></div>
+          <div class="docs-card"></div>
+        </div>
+        <div class="docs-card docs-card-wide"></div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById("docs-root");
+  var links = Array.prototype.slice.call(document.querySelectorAll(".docs-link"));
+  var crumbGroup = document.getElementById("docs-crumb-group");
+  var crumbCurrent = document.getElementById("docs-crumb-current");
+  var route = document.getElementById("docs-route");
+  var search = document.getElementById("docs-search");
+  var overlay = document.getElementById("docs-overlay");
+  var isMobile = function () { return window.matchMedia("(max-width: 1023px)").matches; };
+
+  // ------------------------------ Навигация ------------------------------
+  function activate(link, pushState) {
+    links.forEach(function (item) { item.classList.remove("is-active"); });
+    link.classList.add("is-active");
+    crumbGroup.textContent = link.dataset.group;
+    crumbCurrent.textContent = link.textContent;
+    route.textContent = "/docs/" + link.dataset.slug;
+    document.title = link.textContent + " · Документация";
+    if (pushState && location.hash.slice(1) !== link.dataset.slug) {
+      history.pushState({ slug: link.dataset.slug }, "", "#" + link.dataset.slug);
+    }
+    if (isMobile()) toggleSidebar(false);
+  }
+
+  links.forEach(function (link) {
+    link.addEventListener("click", function () { activate(link, true); });
+  });
+
+  function fromHash() {
+    var slug = location.hash.slice(1);
+    var link = links.filter(function (item) { return item.dataset.slug === slug; })[0];
+    activate(link || links[0], false);
+  }
+
+  fromHash();
+  window.addEventListener("hashchange", fromHash);
+  window.addEventListener("popstate", fromHash);
+
+  // ------------------------------ Сворачивание ------------------------------
+  var COLLAPSE_KEY = "intelligencerai:docs-collapsed";
+
+  function setCollapsed(collapsed) {
+    root.classList.toggle("is-collapsed", collapsed);
+    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? "1" : "0"); } catch (e) {}
+  }
+  try {
+    if (localStorage.getItem(COLLAPSE_KEY) === "1") root.classList.add("is-collapsed");
+  } catch (e) {}
+
+  function toggleSidebar(open) {
+    root.classList.toggle("is-open", open);
+    overlay.hidden = !open;
+  }
+
+  document.getElementById("docs-collapse").addEventListener("click", function () {
+    setCollapsed(true);
+  });
+  document.getElementById("docs-toggle").addEventListener("click", function () {
+    if (isMobile()) toggleSidebar(!root.classList.contains("is-open"));
+    else setCollapsed(!root.classList.contains("is-collapsed"));
+  });
+  overlay.addEventListener("click", function () { toggleSidebar(false); });
+
+  window.addEventListener("resize", function () {
+    if (!isMobile()) toggleSidebar(false);
+  });
+
+  // ------------------------------ Поиск ------------------------------
+  search.addEventListener("input", function () {
+    var query = search.value.trim().toLowerCase();
+    links.forEach(function (link) {
+      link.hidden = query !== "" && link.textContent.toLowerCase().indexOf(query) === -1;
+    });
+    document.querySelectorAll(".docs-nav-group").forEach(function (group) {
+      var hasVisible = Array.prototype.some.call(group.querySelectorAll(".docs-link"), function (link) {
+        return !link.hidden;
+      });
+      group.hidden = !hasVisible;
+    });
+  });
+
+  // ------------------------------ Адресная строка ------------------------------
+  document.getElementById("docs-back").addEventListener("click", function () { history.back(); });
+  document.getElementById("docs-forward").addEventListener("click", function () { history.forward(); });
+  document.getElementById("docs-reload").addEventListener("click", function () { location.reload(); });
+
+  // ------------------------------ Полный экран ------------------------------
+  document.getElementById("docs-fullscreen").addEventListener("click", function () {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+  });
+})();
+</script>
+</body>
+</html>

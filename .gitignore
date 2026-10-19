@@ -6,7 +6,13 @@
 */.DS_Store
 /local
 /local/
-/docs
+/uploads
 .vscode
 nginx.conf.d/
 renew-certs.sh
+/plans
+/plans/
+.agents
+.claude
+agent
+skills-lock.json

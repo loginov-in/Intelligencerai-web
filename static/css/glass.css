@@ -1,0 +1,141 @@
+/* IntelligencerAI — liquid glass + motion tokens (дополнение к daisyUI) */
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --glass-blur: 14px;
+  --glass-blur-mobile: 8px;
+  --glass-panel: rgb(255 255 255 / 0.62);
+  --glass-panel-strong: rgb(255 255 255 / 0.84);
+  --glass-border: rgb(0 0 0 / 0.06);
+}
+
+[data-theme="dark"] {
+  --glass-panel: rgb(24 24 28 / 0.55);
+  --glass-panel-strong: rgb(24 24 28 / 0.8);
+  --glass-border: rgb(255 255 255 / 0.08);
+}
+
+/* Статичный фон-подложка: даёт стеклу «материал», без анимаций и repaint */
+body.app-bg {
+  background-color: var(--color-base-100);
+  background-image:
+    radial-gradient(60rem 40rem at 85% -10%, color-mix(in oklab, var(--color-primary) 9%, transparent), transparent 70%),
+    radial-gradient(50rem 36rem at -10% 100%, color-mix(in oklab, var(--color-secondary) 8%, transparent), transparent 70%);
+}
+
+/* Жидкое стекло: основная панель (topbar, sidebar, поповеры) */
+.glass-panel {
+  background-color: var(--glass-panel);
+  -webkit-backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  backdrop-filter: saturate(160%) blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-panel {
+    background-color: var(--glass-panel-strong);
+  }
+}
+
+/* Телефоны: дешёвый blur, чтобы не садить батарею */
+@media (max-width: 768px) {
+  :root {
+    --glass-blur: var(--glass-blur-mobile);
+  }
+  .glass-panel {
+    background-color: color-mix(in oklab, var(--glass-panel) 80%, var(--color-base-100));
+  }
+}
+
+/* Пользователь просил меньше прозрачности — убираем blur совсем */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-panel,
+  .glass {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    background-color: var(--glass-panel-strong) !important;
+    background-image: none !important;
+  }
+}
+
+/* --------------------------------- Motion --------------------------------- */
+
+/* Отклик на нажатие: любая кнопка */
+.btn,
+.menu > li > a,
+.menu > li > button,
+.dropdown-content li > a,
+.dropdown-content li > button {
+  transition: transform 160ms var(--ease-out);
+}
+
+.btn:active,
+.menu > li > a:active,
+.menu > li > button:active {
+  transform: scale(0.97);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lift {
+    transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
+  }
+  .lift:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px -12px rgb(0 0 0 / 0.25);
+  }
+}
+
+/* Появление блоков */
+@keyframes enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.enter {
+  animation: enter-up 240ms var(--ease-out) both;
+}
+
+.stagger > * {
+  animation: enter-up 240ms var(--ease-out) both;
+}
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 50ms; }
+.stagger > *:nth-child(3) { animation-delay: 100ms; }
+.stagger > *:nth-child(4) { animation-delay: 150ms; }
+.stagger > *:nth-child(5) { animation-delay: 200ms; }
+.stagger > *:nth-child(6) { animation-delay: 250ms; }
+.stagger > *:nth-child(7) { animation-delay: 300ms; }
+.stagger > *:nth-child(8) { animation-delay: 350ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --------------------------------- Мелочи --------------------------------- */
+
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--color-primary-content);
+  background-color: var(--color-primary);
+  user-select: none;
+}
+
+code.code-block {
+  font-variant-numeric: tabular-nums;
+}
