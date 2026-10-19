@@ -1,4 +1,5 @@
 # Главная функция для отправки писем с кодом подтверждения использованием SMTP #
+import hashlib
 import os
 import secrets
 import smtplib
@@ -22,6 +23,15 @@ SMTP_USE_SSL = os.environ.get("SMTP_USE_SSL", "False").lower() in ("true", "1", 
 
 SMTP_TIMEOUT = 10
 RESEND_COOLDOWN_SECONDS = 60
+CONFIRM_CODE_TTL_SECONDS = 600
+
+# Хранилище ожидающих проверки кодов: email -> {"hash": ..., "expires_at": ...}
+# Процессное: gunicorn должен работать с --workers 1
+_pending_codes = {}
+
+
+def _code_hash(email, code):
+    return hashlib.sha256(f"{email}:{code}:{app.secret_key}".encode()).hexdigest()
 
 
 # Функция для генерации случайного кода подтверждения #
@@ -51,7 +61,6 @@ def send_mail(to_email, subject, body):
 
 # --------------------------------------------- Frontend ------------------------------------ #
 @app.route("/email_confirmation")
-@login_required
 def email_confirmation():
     return render_template("email_confirmation.html")
 
@@ -59,7 +68,7 @@ def email_confirmation():
 # --------------------------------------------- Backend ------------------------------------ #
 @app.route("/code/send_confirmation_email", methods=["POST"])
 def send_confirmation_email():
-    email = (request.form.get("email") or "").strip()
+    email = (request.form.get("email") or "").strip().lower()
     if not email or "@" not in email:
         return jsonify({"error": "Email is required"}), 400
 
@@ -75,5 +84,32 @@ def send_confirmation_email():
     except Exception as e:
         return jsonify({"error": str(e)}), 502
 
+    _pending_codes[email] = {
+        "hash": _code_hash(email, confirmation_code),
+        "expires_at": time() + CONFIRM_CODE_TTL_SECONDS,
+    }
     session["confirmation_email_sent_at"] = time()
     return jsonify({"message": "Код подтверждения отправлен на ваш email"}), 200
+
+
+@app.route("/code/verify_confirmation_email", methods=["POST"])
+def verify_confirmation_email():
+    email = (request.form.get("email") or "").strip().lower()
+    code = (request.form.get("code") or "").strip()
+
+    if not email or "@" not in email:
+        return jsonify({"error": "Email is required"}), 400
+    if not code.isdigit() or len(code) != 6:
+        return jsonify({"error": "Код должен состоять из 6 цифр"}), 400
+
+    entry = _pending_codes.get(email)
+    if not entry or entry["expires_at"] < time():
+        _pending_codes.pop(email, None)
+        return jsonify({"error": "Код устарел. Запросите новый."}), 400
+
+    if not secrets.compare_digest(entry["hash"], _code_hash(email, code)):
+        return jsonify({"error": "Неверный код"}), 400
+
+    _pending_codes.pop(email, None)
+    session["confirmed_email"] = email
+    return jsonify({"message": "Email подтвержден"}), 200

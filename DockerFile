@@ -18,4 +18,5 @@ COPY . .
 
 EXPOSE 9120
 
-CMD ["gunicorn", "--bind", "0.0.0.0:9120", "--workers", "2", "--timeout", "60", "--access-logfile", "-", "main:app"]
+# --workers 1: хранилище кодов подтверждения в памяти процесса (см. endpoints/mail_drowser.py)
+CMD ["gunicorn", "--bind", "0.0.0.0:9120", "--workers", "1", "--threads", "8", "--timeout", "60", "--access-logfile", "-", "main:app"]
