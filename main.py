@@ -14,6 +14,8 @@ from endpoints.mail_drowser import *
 from endpoints.files import *  
 from endpoints.profile import *  
 from endpoints.organization import *  
+from endpoints.dashbord import *  
+from endpoints.qr_login import *  
 
 
 if __name__ == "__main__":
