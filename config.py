@@ -15,6 +15,14 @@ POSTGRESQL_PASSWORD = os.environ["POSTGRESQL_PASSWORD"]
 
 
 
+# --- S3 / Object Storage ---
+S3_URL = os.environ["S3_URL"]
+S3_BUCKET = os.environ["baget_name"]
+S3_ACCESS_KEY = os.environ["S3_Access_Key"]
+S3_SECRET_ACCESS_KEY = os.environ["S3_Secret_Access_Key"]
+S3_REGION = os.environ["reguon"]
+
+
 # Секретный Ключ Flask #
 SECRET_KEY = os.environ["SECRET_KEY"]
 
