@@ -73,7 +73,8 @@
     <p class="muted text-xs text-center">© <span data-year>2026</span> IntelligencerAI</p>
   </main>
 
-  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/motion.js') }}"></script>
+<script src="{{ url_for('static', filename='js/common.js') }}"></script>
   <script>
     var year = document.querySelector("[data-year]");
     if (year) year.textContent = new Date().getFullYear();

@@ -339,6 +339,12 @@ def organization():
     return render_template("organization.html", user=current_user)
 
 
+@app.route("/docs")
+@login_required
+def docs():
+    return render_template("docs.html", user=current_user)
+
+
 
 
 
