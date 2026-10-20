@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Дашборд · IntelligencerAI</title>
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="{{ url_for('static', filename='img/Frame 1.png') }}">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="{{ url_for('static', filename='css/ui.css') }}" rel="stylesheet">
+  <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+</head>
+<body class="app-body">
+  <header class="app-header sticky top-0 z-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+      <a class="brand-lockup text-base" href="{{ url_for('login') }}">
+        <img class="brand-mark" src="{{ url_for('static', filename='img/Frame 1.png') }}" alt="">
+        IntelligencerAI
+      </a>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" data-theme-toggle type="button">
+          <span data-theme-icon>◐</span>
+          <span data-theme-label class="sr-only">Авто</span>
+        </button>
+        <a href="{{ url_for('login') }}" class="btn btn-ghost btn-sm">Ко входу</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 flex flex-col gap-6" data-motion-stagger="80">
+    <section class="flex flex-wrap items-end justify-between gap-4 enter">
+      <div>
+        <h1 class="text-3xl font-bold tracking-tight">Дашборд</h1>
+        <p class="muted mt-2 text-sm">
+          Информация о проекте и сервере · снимок на <span id="server-time">—</span>
+        </p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="refresh-btn" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/>
+        </svg>
+        Обновить
+      </button>
+    </section>
+
+    <!-- Сводка (только для вошедших пользователей) -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 enter" id="stats-section" hidden>
+      <div class="panel p-4">
+        <p class="muted text-xs">Пользователи</p>
+        <p class="text-2xl font-bold mt-1" id="stat-users">—</p>
+      </div>
+      <div class="panel p-4">
+        <p class="muted text-xs">Организации</p>
+        <p class="text-2xl font-bold mt-1" id="stat-orgs">—</p>
+      </div>
+      <div class="panel p-4">
+        <p class="muted text-xs">Файлы</p>
+        <p class="text-2xl font-bold mt-1" id="stat-files">—</p>
+      </div>
+      <div class="panel p-4">
+        <p class="muted text-xs">Объём файлов</p>
+        <p class="text-2xl font-bold mt-1" id="stat-files-size">—</p>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Проект -->
+      <div class="panel enter">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Проект</h2>
+            <p class="muted text-xs mt-1">Веб-приложение IntelligencerAI.</p>
+          </div>
+        </div>
+        <dl class="flex flex-col p-2">
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Название</dt>
+            <dd class="font-medium text-sm text-right" id="p-name">—</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Домен</dt>
+            <dd class="font-medium text-sm text-right">
+              <a class="link" id="p-domain" href="#" target="_blank" rel="noopener">—</a>
+            </dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Окружение</dt>
+            <dd class="font-medium text-sm text-right" id="p-env">—</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Python</dt>
+            <dd class="font-medium text-sm text-right" id="p-python">—</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Запущен</dt>
+            <dd class="font-medium text-sm text-right" id="p-started">—</dd>
+          </div>
+          <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+            <dt class="muted text-sm">Аптайм приложения</dt>
+            <dd class="font-medium text-sm text-right" id="p-uptime">—</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Сервер -->
+      <div class="panel enter">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Сервер</h2>
+            <p class="muted text-xs mt-1">Система, ресурсы и нагрузка.</p>
+          </div>
+        </div>
+        <div class="flex flex-col p-4 gap-4">
+          <dl class="flex flex-col">
+            <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+              <dt class="muted text-sm">Хост</dt>
+              <dd class="font-medium text-sm text-right" id="s-host">—</dd>
+            </div>
+            <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+              <dt class="muted text-sm">Система</dt>
+              <dd class="font-medium text-sm text-right" id="s-os">—</dd>
+            </div>
+            <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+              <dt class="muted text-sm">Ядра CPU</dt>
+              <dd class="font-medium text-sm text-right" id="s-cpu">—</dd>
+            </div>
+            <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+              <dt class="muted text-sm">Load average (1/5/15 мин)</dt>
+              <dd class="font-medium text-sm text-right" id="s-load">—</dd>
+            </div>
+            <div class="flex items-center justify-between gap-4 px-3 py-2.5 rounded-xl">
+              <dt class="muted text-sm">Аптайм системы</dt>
+              <dd class="font-medium text-sm text-right" id="s-uptime">—</dd>
+            </div>
+          </dl>
+
+          <div>
+            <div class="flex items-center justify-between text-sm mb-1.5">
+              <span class="muted">Оперативная память</span>
+              <span class="font-medium" id="s-ram-label">—</span>
+            </div>
+            <progress class="progress progress-primary w-full" id="s-ram-bar" value="0" max="100"></progress>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between text-sm mb-1.5">
+              <span class="muted">Диск (/)</span>
+              <span class="font-medium" id="s-disk-label">—</span>
+            </div>
+            <progress class="progress progress-primary w-full" id="s-disk-bar" value="0" max="100"></progress>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <p class="muted text-xs text-center">© <span data-year>2026</span> IntelligencerAI</p>
+  </main>
+
+  <script src="{{ url_for('static', filename='js/motion.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+  <script>
+  (function () {
+    var year = document.querySelector("[data-year]");
+    if (year) year.textContent = new Date().getFullYear();
+
+    function fill(id, value) {
+      var el = document.getElementById(id);
+      if (el) el.textContent = value === null || value === undefined || value === "" ? "—" : value;
+    }
+
+    function fmtUptime(seconds) {
+      if (seconds === null || seconds === undefined) return null;
+      var s = Math.max(0, Math.floor(seconds));
+      var days = Math.floor(s / 86400);
+      var hours = Math.floor((s % 86400) / 3600);
+      var minutes = Math.floor((s % 3600) / 60);
+      var parts = [];
+      if (days) parts.push(days + " дн");
+      if (hours) parts.push(hours + " ч");
+      parts.push(minutes + " мин");
+      return parts.join(" ");
+    }
+
+    function fillProgress(barId, labelId, meter, labelFn) {
+      var bar = document.getElementById(barId);
+      var label = document.getElementById(labelId);
+      if (!meter) {
+        bar.removeAttribute("value");
+        label.textContent = "—";
+        return;
+      }
+      bar.value = meter.percent;
+      label.textContent = labelFn(meter);
+    }
+
+    function render(data) {
+      fill("server-time", data.server_time);
+
+      var stats = document.getElementById("stats-section");
+      if (data.database) {
+        stats.hidden = false;
+        fill("stat-users", data.database.users);
+        fill("stat-orgs", data.database.organizations);
+        fill("stat-files", data.database.files);
+        fill("stat-files-size", Intelli.formatSize(data.database.files_size));
+      } else {
+        stats.hidden = true;
+      }
+
+      fill("p-name", data.project.name);
+      var domain = document.getElementById("p-domain");
+      domain.textContent = data.project.domain;
+      domain.href = "https://" + data.project.domain;
+      fill("p-env", data.project.environment);
+      fill("p-python", data.project.python);
+      fill("p-started", data.project.started_at);
+      fill("p-uptime", fmtUptime(data.project.uptime_seconds));
+
+      fill("s-host", data.server.hostname);
+      fill("s-os", data.server.system);
+      fill("s-cpu", data.server.cpu_cores);
+      fill("s-load", data.server.load_avg ? data.server.load_avg.join(" · ") : null);
+      fill("s-uptime", fmtUptime(data.server.uptime_seconds));
+
+      fillProgress("s-ram-bar", "s-ram-label", data.server.ram, function (m) {
+        return Intelli.formatSize(m.used) + " / " + Intelli.formatSize(m.total) + " · " + m.percent + "%";
+      });
+      fillProgress("s-disk-bar", "s-disk-label", data.server.disk, function (m) {
+        return Intelli.formatSize(m.used) + " / " + Intelli.formatSize(m.total) + " · " + m.percent + "%";
+      });
+    }
+
+    function refresh() {
+      var btn = document.getElementById("refresh-btn");
+      Intelli.setLoading(btn, true);
+      Intelli.api("{{ url_for('api_dashbord') }}")
+        .then(render)
+        .catch(function (err) {
+          Intelli.toast(err.message, "error");
+        })
+        .finally(function () {
+          Intelli.setLoading(btn, false);
+        });
+    }
+
+    document.getElementById("refresh-btn").addEventListener("click", refresh);
+    refresh();
+  })();
+  </script>
+</body>
+</html>

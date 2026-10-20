@@ -149,6 +149,34 @@
         </div>
       </section>
 
+      <!-- QR-вход -->
+      <section class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 class="panel-title">Вход по QR-коду</h2>
+            <p class="muted text-xs mt-1">Отсканируйте код другим устройством, чтобы войти без пароля. Ссылка одноразовая и действует 5 минут.</p>
+          </div>
+        </div>
+        <div class="p-5 flex flex-col gap-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <button type="button" class="btn btn-primary" id="qr-create-btn">Создать QR-код</button>
+            <span class="muted text-xs" id="qr-timer" hidden></span>
+          </div>
+
+          <div id="qr-box" class="hidden flex-col gap-3 items-start w-full">
+            <img id="qr-img" alt="QR-код для входа" class="rounded-xl bg-white p-2 w-44 h-44 border border-base-300">
+            <div class="min-w-0 w-full">
+              <p class="muted text-xs mb-1">Или скопируйте ссылку</p>
+              <div class="flex items-center gap-2">
+                <code id="qr-link" class="code-block text-xs break-all grow"></code>
+                <button type="button" class="btn btn-ghost btn-sm" id="qr-copy-btn">Копировать</button>
+              </div>
+            </div>
+            <p class="muted text-xs">Не передавайте QR-код или ссылку посторонним: они дают полный доступ к аккаунту.</p>
+          </div>
+        </div>
+      </section>
+
       <!-- Тема и выход -->
       <section class="panel">
         <div class="panel-head">
@@ -331,6 +359,64 @@
     Intelli.api("{{ url_for('verify_two_factor') }}", { method: "POST", json: { code: code } })
       .then(function (res) { Intelli.toast(res.message, "success"); })
       .catch(function (err) { Intelli.toast(err.message, "error"); });
+  });
+
+  // ------------------------------- QR-вход -------------------------------
+  var qrCreateBtn = document.getElementById("qr-create-btn");
+  var qrBox = document.getElementById("qr-box");
+  var qrTimerEl = document.getElementById("qr-timer");
+  var qrCountdown = null;
+
+  function stopQrTimer() {
+    if (qrCountdown) clearInterval(qrCountdown);
+    qrCountdown = null;
+  }
+
+  function hideQrBox() {
+    qrBox.classList.add("hidden");
+    qrBox.classList.remove("flex");
+  }
+
+  function startQrTimer(seconds) {
+    stopQrTimer();
+    var left = seconds;
+    qrTimerEl.hidden = false;
+
+    function tick() {
+      if (left <= 0) {
+        stopQrTimer();
+        qrTimerEl.textContent = "Ссылка устарела — создайте новую";
+        hideQrBox();
+        return;
+      }
+      qrTimerEl.textContent = "Действует ещё " + left + " с";
+      left -= 1;
+    }
+
+    tick();
+    qrCountdown = setInterval(tick, 1000);
+  }
+
+  qrCreateBtn.addEventListener("click", function () {
+    Intelli.setLoading(qrCreateBtn, true);
+    Intelli.api("{{ url_for('create_qr_login') }}", { method: "POST" })
+      .then(function (res) {
+        document.getElementById("qr-img").src = res.qr;
+        var link = document.getElementById("qr-link");
+        link.textContent = res.url;
+        link.dataset.url = res.url;
+        qrBox.classList.remove("hidden");
+        qrBox.classList.add("flex");
+        startQrTimer(res.expires_in);
+        Intelli.toast("QR-код создан", "success");
+      })
+      .catch(function (err) { Intelli.toast(err.message, "error"); })
+      .finally(function () { Intelli.setLoading(qrCreateBtn, false); });
+  });
+
+  document.getElementById("qr-copy-btn").addEventListener("click", function () {
+    var link = document.getElementById("qr-link");
+    Intelli.copy(link.dataset.url || link.textContent, "Ссылка скопирована");
   });
 })();
 </script>

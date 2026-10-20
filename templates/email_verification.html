@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Код подтверждения · IntelligencerAI</title>
+  <style>
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    table { border-collapse: collapse !important; }
+    img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+    body { margin: 0 !important; padding: 0 !important; width: 100% !important; background: #ffffff; }
+    a { color: #929292; }
+    .code-value { white-space: nowrap; }
+
+    @media only screen and (max-width: 760px) {
+      .shell { padding: 28px 20px 48px !important; }
+      .logo-top { width: 170px !important; }
+      .logo-foot { width: 108px !important; }
+      .lead { font-size: 23px !important; padding-top: 48px !important; }
+      .code-wrap { padding-top: 28px !important; }
+      .code-box { border-radius: 20px !important; }
+      .code-cell {
+        height: 110px !important;
+        line-height: 110px !important;
+        padding: 0 0 0 24px !important;
+        font-size: 34px !important;
+        letter-spacing: 1px !important;
+      }
+      .notice { font-size: 19px !important; padding-top: 30px !important; }
+      .signature { font-size: 18px !important; padding-top: 56px !important; }
+      .rule { padding-top: 56px !important; }
+      .foot-logo { padding-top: 32px !important; }
+      .foot-links { padding-top: 22px !important; }
+      .foot-links a { font-size: 17px !important; }
+      .foot-links td { padding-bottom: 14px !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background:#ffffff;font-family:Arial,Helvetica,'Helvetica Neue',sans-serif;-webkit-font-smoothing:antialiased;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width:100%;background:#ffffff;border-collapse:collapse;">
+  <tr>
+    <td class="shell" align="left" style="padding:44px 32px 72px;background:#ffffff;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:1246px;border-collapse:collapse;">
+
+        <tr>
+          <td>
+            <div class="logo-top" style="width:240px;max-width:100%;line-height:0;">{{ logo_svg | safe }}</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="lead" style="padding:88px 0 0;font-size:32px;line-height:1.35;color:#333333;font-weight:400;">
+            Код подтверждения
+          </td>
+        </tr>
+
+        <tr>
+          <td class="code-wrap" style="padding:36px 0 0;">
+            <table role="presentation" class="code-box" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#F2F2F2" style="width:100%;background:#F2F2F2;border-collapse:separate;border-radius:32px;">
+              <tr>
+                <td class="code-cell code-value" height="168" style="height:168px;line-height:168px;padding:0 0 0 48px;font-size:48px;color:#595959;font-weight:400;letter-spacing:2px;">
+                  {{ verification_code }}
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="notice" style="padding:52px 0 0;font-size:32px;line-height:1.5;color:#333333;">
+            Код действует {{ minutes }} минут. Если вы не запрашивали код, просто проигнорируйте письмо.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="signature" style="padding:92px 0 0;font-size:26px;line-height:1.45;color:#929292;">
+            С уважением,<br>
+            Команда IntelligencerAI
+          </td>
+        </tr>
+
+        <tr>
+          <td class="rule" style="padding:90px 0 0;font-size:0;line-height:0;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+              <tr>
+                <td style="border-top:1px solid #E2E2E2;font-size:0;line-height:0;">&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="foot-logo" style="padding:44px 0 0;">
+            <div class="logo-foot" style="width:132px;max-width:100%;line-height:0;">{{ logo_svg | safe }}</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="foot-links" style="padding:26px 0 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
+              <tr>
+                <td style="padding:0 0 18px;">
+                  <a href="{{ home_url }}" style="font-size:24px;line-height:1.4;color:#929292;text-decoration:underline;">IntelligencerAI</a>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:0;">
+                  <a href="{{ docs_url }}" style="font-size:24px;line-height:1.4;color:#929292;text-decoration:underline;">Справочный центр</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

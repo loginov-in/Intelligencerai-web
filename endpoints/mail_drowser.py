@@ -7,8 +7,10 @@ import string
 from email.header import Header
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from pathlib import Path
 from time import time
 
+from flask import url_for
 from main import app
 
 # Настройки SMTP сервера для отправки почты #
@@ -38,44 +40,40 @@ def code_confirmation_email(length=6):
     return "".join(secrets.choice(string.digits) for _ in range(length))
 
 
+# Логотип IntelligencerAI для письма: SVG перекрашиваем в чёрный, т.к. исходный белый
+_LOGO_SVG_PATH = Path(__file__).resolve().parent.parent / "static" / "img" / "logo.svg"
+
+
+def _brand_logo_svg():
+    try:
+        svg = _LOGO_SVG_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    svg = svg.replace('fill="white"', 'fill="#111111"')
+    return svg.replace("<svg ", '<svg style="display:block;width:100%;height:auto;border:0;" ', 1)
+
+
+def _site_link(endpoint):
+    try:
+        return url_for(endpoint, _external=True)
+    except Exception:
+        pass
+    try:
+        return url_for(endpoint)
+    except Exception:
+        return "#"
+
+
 # Письмо-карточка: крупный код подтверждения и всё #
 def code_email_html(code, minutes=10):
-    return f"""<!doctype html>
-<html lang="ru">
-<body style="margin:0;padding:32px 16px;background:#f4f2fb;font-family:Arial,Helvetica,sans-serif;">
-  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
-               style="max-width:420px;border-collapse:collapse;background:#ffffff;border-radius:20px;padding:32px;">
-          <tr>
-            <td align="center" style="padding:0 0 8px;font-size:18px;font-weight:bold;color:#2b2440;">
-              IntelligencerAI
-            </td>
-          </tr>
-          <tr>
-            <td align="center" style="padding:0 0 24px;font-size:14px;color:#6b6480;">
-              Код подтверждения
-            </td>
-          </tr>
-          <tr>
-            <td align="center"
-                style="padding:18px 12px;background:#f4f2fb;border-radius:14px;font-size:34px;font-weight:bold;
-                       letter-spacing:8px;color:#2b2440;font-family:Consolas,Menlo,monospace;">
-              {code}
-            </td>
-          </tr>
-          <tr>
-            <td align="center" style="padding:24px 0 0;font-size:12px;color:#8b8499;">
-              Код действует {minutes} минут. Если вы не запрашивали код, просто проигнорируйте письмо.
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>"""
+    template = app.jinja_env.get_template("email_verification.html")
+    return template.render(
+        verification_code=code,
+        minutes=minutes,
+        logo_svg=_brand_logo_svg(),
+        home_url=_site_link("login"),
+        docs_url=_site_link("docs"),
+    )
 
 
 # Отправка письма через SMTP #
